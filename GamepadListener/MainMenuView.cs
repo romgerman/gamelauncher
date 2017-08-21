@@ -35,7 +35,7 @@ namespace GamepadListener
 		{
 			menuContainer.Init(main, window);
 
-            var font = Theme.SelectedTheme.GetFont();
+			var font = Theme.SelectedTheme.GetFont();
 
 			timeText = new Text(DateTime.Now.ToString("t"), font, 16);
 			timeText.FillColor = Theme.SelectedTheme.TextColor;
@@ -69,6 +69,8 @@ namespace GamepadListener
 			currentElementTitleText = new Text("CURRENT_ELEMENT_TITLE", font, 24);
 			currentElementTitleText.FillColor = Theme.SelectedTheme.TextColor;
 			currentElementTitleText.Position = new Vector2f(50, 70);
+
+			currentElementTitleText.DisplayedString = menuContainer.GetSelectedItem().Name;
 
 
 			for (uint i = 0; i < Joystick.Count; i++)
@@ -105,12 +107,12 @@ namespace GamepadListener
 
 				if(e.Button == 0)
 				{
-					menuContainer.SelectNext();
+					menuContainer.SelectPrev();
 					elementHasChanged = true;
 				}
 				else if(e.Button == 2)
 				{
-					menuContainer.SelectPrev();
+					menuContainer.SelectNext(); // TODO: What the fuck. This need a fix
 					elementHasChanged = true;
 				}
 

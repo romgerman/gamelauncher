@@ -1,5 +1,7 @@
 *.pdb
+*/bin
 /bin
+*/obj
 /obj
 /packages
 /.vs
