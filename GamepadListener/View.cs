@@ -3,10 +3,10 @@ using SFML.Window;
 
 namespace GamepadListener
 {
-	interface View
+	interface IView
 	{
-		void init(MainClass main, RenderWindow window);
-		void update(Window window, int dt);
-		void render(RenderWindow window);
+		void Init(MainClass main, RenderWindow window);
+		void Update(Window window, int dt);
+		void Render(RenderWindow window);
 	}
 }

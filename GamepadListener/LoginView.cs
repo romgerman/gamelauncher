@@ -5,7 +5,7 @@ using SFML.Window;
 
 namespace GamepadListener
 {
-	class LoginView : View
+	class LoginView : IView
 	{
 		Text text;
 		MainClass main;
@@ -26,7 +26,7 @@ namespace GamepadListener
             }
         }
 
-		public void init(MainClass main, RenderWindow window)
+		public void Init(MainClass main, RenderWindow window)
 		{
 			text = new Text("Press A to use the controller or RETURN to return to desktop.", new Font("OpenSans-Regular.ttf"), 24);
 			text.FillColor = Theme.SelectedTheme.TextColor;
@@ -39,12 +39,12 @@ namespace GamepadListener
             window.KeyPressed += HandleKeypress;
 		}
 
-		public void render(RenderWindow window)
+		public void Render(RenderWindow window)
 		{
 			text.Draw(window, RenderStates.Default);
 		}
 
-		public void update(Window window, int dt)
+		public void Update(Window window, int dt)
 		{
 		}
 	}

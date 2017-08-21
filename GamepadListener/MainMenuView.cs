@@ -15,7 +15,7 @@ namespace GamepadListener
 		Y = 3, // top
 	}
 
-	class MainMenuView : View
+	class MainMenuView : IView
 	{
 		Text timeText;
 		Text usernameText;
@@ -31,9 +31,9 @@ namespace GamepadListener
 
 		MenuContainer menuContainer = new MenuContainer();
 
-		public void init(MainClass main, RenderWindow window)
+		public void Init(MainClass main, RenderWindow window)
 		{
-			menuContainer.init(main, window);
+			menuContainer.Init(main, window);
 
 			var textColor = new Color(0x2f2f2fff);
 
@@ -121,7 +121,7 @@ namespace GamepadListener
 			};
 		}
 
-		public void render(RenderWindow window)
+		public void Render(RenderWindow window)
 		{
 			timeText.Draw(window, RenderStates.Default);
 			usernameText.Draw(window, RenderStates.Default);
@@ -137,14 +137,14 @@ namespace GamepadListener
 
 			currentElementTitleText.Draw(window, RenderStates.Default);
 
-			menuContainer.render(window);
+			menuContainer.Render(window);
 		}
 
-		public void update(Window window, int dt)
+		public void Update(Window window, int dt)
 		{
 			timeText.DisplayedString = DateTime.Now.ToString("t");
 
-			menuContainer.update(window, dt);
+			menuContainer.Update(window, dt);
 		}
 	}
 }

@@ -3,3 +3,5 @@
 /obj
 /packages
 /.vs
+/GamepadListener/bin/Debug
+/GamepadListener/obj/Debug
