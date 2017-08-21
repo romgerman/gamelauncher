@@ -55,13 +55,15 @@ class MainClass
 		{
 			TextColor = new Color(0x2f2f2fff),
 			BackgroundColor = new Color(0xf7f7f7ff),
-			CursorOutlineColor = new Color(0x10a6c0ff)
+			CursorOutlineColor = new Color(0x10a6c0ff),
+            FontName = "OpenSans-Regular.ttf"
 		};
 		Theme.DarkTheme = new Theme()
 		{
 			TextColor = new Color(0xf7f7f7ff),
 			BackgroundColor = new Color(0x2f2f2fff),
-			CursorOutlineColor = new Color(0x10a6c0ff)
+			CursorOutlineColor = new Color(0x10a6c0ff),
+            FontName = "OpenSans-Regular.ttf"
 		};
 		Theme.SelectedTheme = Theme.LightTheme;
 
