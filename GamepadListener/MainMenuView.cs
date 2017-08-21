@@ -15,7 +15,7 @@ namespace GamepadListener
 		Y = 3, // top
 	}
 
-	class MainMenuView : View
+	class MainMenuView : IView
 	{
 		Text timeText;
 		Text usernameText;
@@ -31,23 +31,23 @@ namespace GamepadListener
 
 		MenuContainer menuContainer = new MenuContainer();
 
-		public void init(MainClass main, RenderWindow window)
+		public void Init(MainClass main, RenderWindow window)
 		{
-			menuContainer.init(main, window);
+			menuContainer.Init(main, window);
 
-			var textColor = new Color(0x2f2f2fff);
+            var font = Theme.SelectedTheme.GetFont();
 
-			timeText = new Text(DateTime.Now.ToString("t"), new Font("OpenSans-Regular.ttf"), 16);
+			timeText = new Text(DateTime.Now.ToString("t"), font, 16);
 			timeText.FillColor = Theme.SelectedTheme.TextColor;
 			var rectTimeText = timeText.GetLocalBounds();
 			timeText.Position = new Vector2f(window.Size.X - rectTimeText.Width - 20, 10);
 
-			gamepadAttachedText = new Text("0", new Font("OpenSans-Regular.ttf"), 16);
+			gamepadAttachedText = new Text("0", font, 16);
 			gamepadAttachedText.FillColor = Theme.SelectedTheme.TextColor;
 			var rectGamepadAttachedText = gamepadAttachedText.GetGlobalBounds();
 			gamepadAttachedText.Position = new Vector2f(timeText.Position.X - rectGamepadAttachedText.Width - 20, 10);
 
-			usernameText = new Text(Environment.UserName, new Font("OpenSans-Regular.ttf"), 16);
+			usernameText = new Text(Environment.UserName, font, 16);
 			usernameText.FillColor = Theme.SelectedTheme.TextColor;
 			usernameText.Position = new Vector2f(20, 10);
 
@@ -55,18 +55,18 @@ namespace GamepadListener
 			topBarBorder.FillColor = Theme.SelectedTheme.TextColor;
 			topBarBorder.Position = new Vector2f(10, 40);
 
-			noJoystickNotice = new Text("Connect a Joystick to continue.", new Font("OpenSans-Regular.ttf"), 16);
+			noJoystickNotice = new Text("Connect a Joystick to continue.", font, 16);
 			var noJoystickNoticeRect = noJoystickNotice.GetLocalBounds();
 			noJoystickNotice.Origin = new Vector2f(noJoystickNoticeRect.Left + noJoystickNoticeRect.Width / 2.0f,
 									   noJoystickNoticeRect.Top + noJoystickNoticeRect.Height / 2.0f);
 			noJoystickNotice.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
 			noJoystickNotice.FillColor = Theme.SelectedTheme.TextColor;
 
-			libraryEmptyNotice = new Text("To play a game you can add a game to the library.", new Font("OpenSans-Regular.ttf"), 16);
+			libraryEmptyNotice = new Text("To play a game you can add a game to the library.", font, 16);
 			libraryEmptyNotice.FillColor = Theme.SelectedTheme.TextColor;
 			libraryEmptyNotice.Position = new Vector2f(50, 70);
 
-			currentElementTitleText = new Text("CURRENT_ELEMENT_TITLE", new Font("OpenSans-Regular.ttf"), 24);
+			currentElementTitleText = new Text("CURRENT_ELEMENT_TITLE", font, 24);
 			currentElementTitleText.FillColor = Theme.SelectedTheme.TextColor;
 			currentElementTitleText.Position = new Vector2f(50, 70);
 
@@ -121,7 +121,7 @@ namespace GamepadListener
 			};
 		}
 
-		public void render(RenderWindow window)
+		public void Render(RenderWindow window)
 		{
 			timeText.Draw(window, RenderStates.Default);
 			usernameText.Draw(window, RenderStates.Default);
@@ -137,14 +137,14 @@ namespace GamepadListener
 
 			currentElementTitleText.Draw(window, RenderStates.Default);
 
-			menuContainer.render(window);
+			menuContainer.Render(window);
 		}
 
-		public void update(Window window, int dt)
+		public void Update(Window window, int dt)
 		{
 			timeText.DisplayedString = DateTime.Now.ToString("t");
 
-			menuContainer.update(window, dt);
+			menuContainer.Update(window, dt);
 		}
 	}
 }

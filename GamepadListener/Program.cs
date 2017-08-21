@@ -6,8 +6,8 @@ using GamepadListener;
 
 class MainClass
 {
-	public GamepadListener.View currentView;
-	public GamepadListener.View pendingView;
+	public GamepadListener.IView currentView;
+	public GamepadListener.IView pendingView;
 
 	static void Main(string[] args)
 	{
@@ -55,18 +55,20 @@ class MainClass
 		{
 			TextColor = new Color(0x2f2f2fff),
 			BackgroundColor = new Color(0xf7f7f7ff),
-			CursorOutlineColor = new Color(0x10a6c0ff)
+			CursorOutlineColor = new Color(0x10a6c0ff),
+            FontName = "OpenSans-Regular.ttf"
 		};
 		Theme.DarkTheme = new Theme()
 		{
 			TextColor = new Color(0xf7f7f7ff),
 			BackgroundColor = new Color(0x2f2f2fff),
-			CursorOutlineColor = new Color(0x10a6c0ff)
+			CursorOutlineColor = new Color(0x10a6c0ff),
+            FontName = "OpenSans-Regular.ttf"
 		};
 		Theme.SelectedTheme = Theme.LightTheme;
 
 		main.currentView = new LoginView();
-		main.currentView.init(main, window);
+		main.currentView.Init(main, window);
 
 		while (running)
 		{
@@ -77,7 +79,7 @@ class MainClass
 			if(main.pendingView != null)
 			{
 				main.currentView = main.pendingView;
-				main.currentView.init(main, window);
+				main.currentView.Init(main, window);
 				main.pendingView = null;
 			}
 
@@ -94,10 +96,10 @@ class MainClass
 			{
 				timeSinceLastUpdate -= timePerFrame;
 
-				main.currentView.update(window, timePerFrame.AsMilliseconds());
+				main.currentView.Update(window, timePerFrame.AsMilliseconds());
 
 				window.Clear(Theme.SelectedTheme.BackgroundColor);
-				main.currentView.render(window);
+				main.currentView.Render(window);
 				window.Display();
 			}
 		}

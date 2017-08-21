@@ -18,7 +18,7 @@ namespace GamepadListener
 		//public Sprite Cover;
 	}
 
-	class MenuContainer : View
+	class MenuContainer : IView
 	{
 		private List<MenuItem> elements;
 		private Vector2f menuPosition;
@@ -121,7 +121,7 @@ namespace GamepadListener
 			return elements.Count == 0;
 		}
 
-		public void init(MainClass main, RenderWindow window)
+		public void Init(MainClass main, RenderWindow window)
 		{
 			this.rwindow = window;
 
@@ -144,7 +144,7 @@ namespace GamepadListener
 			SelectItem(0);
 		}
 
-		public void render(RenderWindow window)
+		public void Render(RenderWindow window)
 		{
 			for (int i = 0; i < elements.Count; i++)
 			{
@@ -152,7 +152,7 @@ namespace GamepadListener
 			}
 		}
 
-		public void update(Window window, int dt)
+		public void Update(Window window, int dt)
 		{
 			// ...
 		}
