@@ -78,6 +78,7 @@ class MainClass
 
 			if(main.pendingView != null)
 			{
+                main.currentView.Deinit();
 				main.currentView = main.pendingView;
 				main.currentView.Init(main, window);
 				main.pendingView = null;

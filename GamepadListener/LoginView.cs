@@ -9,6 +9,7 @@ namespace GamepadListener
 	{
 		Text text;
 		MainClass main;
+        RenderWindow window;
 
         private void HandleLogin(object o, JoystickButtonEventArgs ev)
         {
@@ -34,6 +35,7 @@ namespace GamepadListener
 			text.Position = new Vector2f(window.Size.X / 2 - rect.Width / 2.0f, window.Size.Y / 2 - rect.Height / 2.0f);
 
 			this.main = main;
+            this.window = window;
 
             window.JoystickButtonPressed += HandleLogin;
             window.KeyPressed += HandleKeypress;
@@ -47,5 +49,11 @@ namespace GamepadListener
 		public void Update(Window window, int dt)
 		{
 		}
-	}
+
+        public void Deinit()
+        {
+            window.JoystickButtonPressed -= HandleLogin;
+            window.KeyPressed -= HandleKeypress;
+        }
+    }
 }
