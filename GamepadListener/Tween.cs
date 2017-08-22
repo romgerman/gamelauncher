@@ -10,7 +10,9 @@ namespace GamepadListener
 	enum TweenType
 	{
 		Linear,
-		Quadtratic,
+		EaseQuadIn,
+		EaseCubicIn,
+		EaseSineIn
 	}
 
 	public delegate void FinishedAnimation(bool cancelled);
@@ -80,19 +82,23 @@ namespace GamepadListener
 			{
 				var rem = endVal - newVal;
 
-				if (newVal.GreaterOrEq(endVal))
+				if (Math.Abs(rem.X) > 10f || Math.Abs(rem.Y) > 10f)
 				{
 					switch (ttype)
 					{
 						case TweenType.Linear:
 							newVal = value = startVal.Lerp(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
 							break;
-						case TweenType.Quadtratic:
-							startVal = value = startVal.QuadInterpolation(endVal, (float)(DateTime.Now - startTime).TotalMilliseconds / duration);
+						case TweenType.EaseQuadIn:
+							newVal = value = startVal.EaseQuadIn(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
+							break;
+						case TweenType.EaseCubicIn:
+							newVal = value = startVal.EaseCubicIn(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
+							break;
+						case TweenType.EaseSineIn:
+							newVal = value = startVal.EaseSineIn(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
 							break;
 					}
-
-					//startTime = DateTime.Now;
 				}
 				else
 				{

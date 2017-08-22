@@ -20,10 +20,20 @@ namespace GamepadListener
 			return v1 + (v2 - v1) * t;
 		}
 
-		public static Vector2f QuadInterpolation(this Vector2f v1, Vector2f v2, float t)
+		public static Vector2f EaseQuadIn(this Vector2f v1, Vector2f v2, float t)
 		{
-			var temp = v2 - v1;
-			return v1 + (new Vector2f(temp.X * temp.X, temp.Y * temp.Y)) * t;
+			return v1 + (v2 - v1) * t * t;
+		}
+
+		public static Vector2f EaseCubicIn(this Vector2f v1, Vector2f v2, float t)
+		{
+			return v1 + (v2 - v1) * t * t * t;
+		}
+
+		public static Vector2f EaseSineIn(this Vector2f v1, Vector2f v2, float t)
+		{
+			var c = v2 - v1;
+			return -c * (float)Math.Cos(t * (Math.PI / 2)) + c + v1;
 		}
 	}
 }

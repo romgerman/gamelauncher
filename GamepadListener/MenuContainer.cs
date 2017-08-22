@@ -21,7 +21,7 @@ namespace GamepadListener
 
 		public void AnimatePosition(Vector2f newpos, int duration)
 		{
-			Animation.Animate(Rectangle.Position, newpos, duration, TweenType.Linear);
+			Animation.Animate(Rectangle.Position, newpos, duration, TweenType.EaseSineIn);
 		}
 
 		public void UpdateAnimation(int dt)
@@ -100,22 +100,6 @@ namespace GamepadListener
 			elements[selectedIndex].Rectangle.OutlineColor = Color.Transparent;
 			elements[index].Rectangle.OutlineColor = Color.Cyan;
 
-			if (selectedIndex < index)
-			{
-				for (int i = 0; i < elements.Count; i++)
-				{
-					var position = elements[i].Rectangle.Position.X;
-
-					if (elements[i].Animation.IsRunning())
-					{
-						position = elements[i].Animation.End().X;
-					}
-
-					elements[i].AnimatePosition(new Vector2f(position - elementSizeWithOffset,
-															 elements[i].Rectangle.Position.Y), 500);
-				}
-			}
-
 			this.selectedIndex = index;
 		}
 		
@@ -125,6 +109,19 @@ namespace GamepadListener
 				SelectItem(0);
 			else
 				SelectItem(selectedIndex + 1);
+
+			for (int i = 0; i < elements.Count; i++)
+			{
+				var position = elements[i].Rectangle.Position.X;
+
+				if (elements[i].Animation.IsRunning())
+				{
+					position = elements[i].Animation.End().X;
+				}
+
+				elements[i].AnimatePosition(new Vector2f(position - elementSizeWithOffset, // TODO: sometghing with offset
+														 elements[i].Rectangle.Position.Y), 500);
+			}
 		}
 		
 		public void SelectPrev()
@@ -133,6 +130,19 @@ namespace GamepadListener
 				SelectItem(elements.Count - 1);
 			else
 				SelectItem(selectedIndex - 1);
+
+			for (int i = 0; i < elements.Count; i++)
+			{
+				var position = elements[i].Rectangle.Position.X;
+
+				if (elements[i].Animation.IsRunning())
+				{
+					position = elements[i].Animation.End().X;
+				}
+
+				elements[i].AnimatePosition(new Vector2f(position + elementSizeWithOffset, // TODO: sometghing with offset
+														 elements[i].Rectangle.Position.Y), 500);
+			}
 		}
 
 		public MenuItem GetSelectedItem()
