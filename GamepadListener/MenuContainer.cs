@@ -16,7 +16,21 @@ namespace GamepadListener
 		public RectangleShape Rectangle;
 		public Text Title;
 		public bool IsVisible;
+		public TweenVector2f Animation;
 		//public Sprite Cover;
+
+		public void AnimatePosition(Vector2f newpos, int duration)
+		{
+			Animation.Animate(Rectangle.Position, newpos, duration, TweenType.Linear);
+		}
+
+		public void UpdateAnimation(int dt)
+		{
+			var pos = Rectangle.Position;
+			Animation.Update(ref pos, dt);
+			Rectangle.Position = pos;
+			Title.Position = new Vector2f(Rectangle.Position.X, Title.Position.Y);
+		}
 	}
 
 	class MenuContainer : IView
@@ -30,11 +44,6 @@ namespace GamepadListener
 		private int maxWholeElementsOnScreen = 0;
 
 		private int selectedIndex = 0;
-
-		private bool isPlayingAnim = false;
-		private bool scrollLeft = false;
-		private bool scrollRight = false;
-		private float endPosLeft = 0.0f;
 
 		public MenuContainer()
 		{
@@ -64,11 +73,12 @@ namespace GamepadListener
 					FillColor = color,
 					OutlineThickness = 10.0f
 				},
-				Title = new Text(name, Theme.SelectedTheme.GetFont(), 16)
+				Title = new Text(name, Theme.SelectedTheme.GetFont(), 16),
+				Animation = new TweenVector2f() 
 			};
 
 			item.Rectangle.Position = new Vector2f(elementSizeWithOffset * elements.Count + offset * 2, yPos);
-			item.IsVisible = item.Rectangle.Position.X <= rwindow.Size.X;
+			item.IsVisible = true; // TODO: visibility (item.Rectangle.Position.X <= rwindow.Size.X;)
 
 			item.Title.FillColor = Color.Black;
 			item.Title.Position = new Vector2f(item.Rectangle.Position.X, item.Rectangle.Position.Y + item.Rectangle.GetLocalBounds().Height + item.Title.GetLocalBounds().Height);
@@ -87,7 +97,20 @@ namespace GamepadListener
 			elements[index].Rectangle.OutlineColor = Color.Cyan;
 
 			if (selectedIndex < index)
-				AnimScrollRight();
+			{
+				for (int i = 0; i < elements.Count; i++)
+				{
+					var position = elements[i].Rectangle.Position.X;
+
+					if (elements[i].Animation.IsRunning())
+					{
+						position = elements[i].Animation.End().X;
+					}
+
+					elements[i].AnimatePosition(new Vector2f(position - elementSizeWithOffset,
+															 elements[i].Rectangle.Position.Y), 500);
+				}
+			}
 
 			this.selectedIndex = index;
 		}
@@ -144,17 +167,6 @@ namespace GamepadListener
 			}
 		}
 
-		private void AnimScrollRight()
-		{
-			if (isPlayingAnim)
-				return;
-
-			isPlayingAnim = true;
-			scrollRight = true;
-
-			endPosLeft = elements[0].Rectangle.Position.X - elementSizeWithOffset;
-		}
-
 		private Vector2f Lerp(Vector2f v1, Vector2f v2, float t)
 		{
 			return v1 + (v2 - v1) * t;
@@ -174,13 +186,17 @@ namespace GamepadListener
 				//AddItem(name, Color.Black);
 			//}
 
-			AddItem("First", Color.Green);
+			AddItem("First game", Color.Green);
 			AddItem("Game Number Two", Color.Red);
 			AddItem("Game Number Three", Color.Black);
 			AddItem("Game Number Four", Color.Yellow);
 			AddItem("Game Number Five", Color.Magenta);
+			AddItem("Game Number Six", Color.Blue);
+			AddItem("Game Number Seven", Color.Red);
+			AddItem("Game Number Eight", Color.Cyan);
+			AddItem("Game Number Nine", Color.Black);
 
-			//SelectItem(0);
+			SelectItem(0);
 		}
 
 		public void Render(RenderWindow window)
@@ -197,20 +213,10 @@ namespace GamepadListener
 
 		public void Update(Window window, int dt)
 		{
-			// ...
-
-			if (isPlayingAnim && scrollRight)
+			for (int i = 0; i < elements.Count; i++)
 			{
-				if (elements[0].Rectangle.Position.X - endPosLeft <= 0.0001f)
-				{
-					scrollRight = false;
-					isPlayingAnim = false;
-					return;
-				}
-			
-				ScrollLeft(dt / 1000.0f);
+				elements[i].UpdateAnimation(dt);
 			}
-			
 		}
 	}
 }

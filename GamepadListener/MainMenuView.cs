@@ -112,7 +112,7 @@ namespace GamepadListener
 				}
 				else if(e.Button == 2)
 				{
-					menuContainer.SelectNext(); // TODO: What the fuck. This need a fix
+					menuContainer.SelectNext();
 					elementHasChanged = true;
 				}
 
