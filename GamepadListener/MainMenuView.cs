@@ -31,7 +31,11 @@ namespace GamepadListener
 
 		MenuContainer menuContainer = new MenuContainer();
 
-		public void Init(MainClass main, RenderWindow window)
+        public void Deinit()
+        {
+        }
+
+        public void Init(MainClass main, RenderWindow window)
 		{
 			menuContainer.Init(main, window);
 

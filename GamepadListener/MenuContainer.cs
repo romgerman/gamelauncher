@@ -50,6 +50,10 @@ namespace GamepadListener
 			this.elements = new List<MenuItem>();
 		}
 
+        public void Deinit()
+        {
+        }
+
 		public void SetPosition(Vector2f pos)
 		{
 			this.menuPosition = pos;
