@@ -162,6 +162,10 @@ namespace GamepadListener
 			// This is just for testing
 
 			SteamCollection collection = new SteamCollection();
+			OriginCollection oc = new OriginCollection();
+			//oc.FetchGameList();
+			UplayCollection uc = new UplayCollection();
+			//uc.FetchGameList();
 			//collection.FetchGameList();
 
 			//foreach(string name in collection.games)
