@@ -8,29 +8,30 @@ namespace GamepadListener
 {
     class LibraryItemApplication : LibraryItem
     {
-        string PlayCount { get; set; }
-        string LastPlayed { get; set; }
+        public uint PlayCount { get; set; }
+        public string LastPlayed { get; set; }
     }
 
     class LibraryItemFolder : LibraryItem
     {
-
+        // TODO: Unused for now
     }
 
     class LibraryItem
     {
-        string Path { get; set; }
-        string Name { get; set; }
-        string Desc { get; set; }
-        string Thumbnail { get; set; }
+        public string Path { get; set; }
+        public string Name { get; set; }
+        public string Desc { get; set; }
+        public string Thumbnail { get; set; }
     }
 
     class LibraryData
     {
-
+        public List<LibraryItem> Items { get; set; }
     }
 
     class Library
     {
+        LibraryData Data { get; set; }
     }
 }
