@@ -119,7 +119,7 @@ namespace GamepadListener
 					position = elements[i].Animation.End().X;
 				}
 
-				elements[i].AnimatePosition(new Vector2f(position - elementSizeWithOffset, // TODO: sometghing with offset
+				elements[i].AnimatePosition(new Vector2f(position - elementSizeWithOffset, // TODO: sometghing with offset or is it because of float comparison in tween
 														 elements[i].Rectangle.Position.Y), 500);
 			}
 		}
@@ -140,7 +140,7 @@ namespace GamepadListener
 					position = elements[i].Animation.End().X;
 				}
 
-				elements[i].AnimatePosition(new Vector2f(position + elementSizeWithOffset, // TODO: sometghing with offset
+				elements[i].AnimatePosition(new Vector2f(position + elementSizeWithOffset, // TODO: sometghing with offset or is it because of float comparison in tween
 														 elements[i].Rectangle.Position.Y), 500);
 			}
 		}
@@ -153,37 +153,6 @@ namespace GamepadListener
 		public bool Empty()
 		{
 			return elements.Count == 0;
-		}
-
-		private void ScrollLeft(float dt)
-		{
-			for (int i = 0; i < elements.Count; i++)
-			{
-				elements[i].Rectangle.Position = Lerp(elements[i].Rectangle.Position,
-														new Vector2f(elements[i].Rectangle.Position.X - elementSizeWithOffset, elements[i].Rectangle.Position.Y),
-														dt);
-				elements[i].Title.Position = Lerp(elements[i].Title.Position,
-														new Vector2f(elements[i].Title.Position.X - elementSizeWithOffset, elements[i].Title.Position.Y),
-														dt);
-			}
-		}
-
-		private void ScrollRight(float dt)
-		{
-			for (int i = 0; i < elements.Count; i++)
-			{
-				elements[i].Rectangle.Position = Lerp(elements[i].Rectangle.Position,
-														new Vector2f(elements[i].Rectangle.Position.X + elementSizeWithOffset, elements[i].Rectangle.Position.Y),
-														dt);
-				elements[i].Title.Position = Lerp(elements[i].Title.Position,
-														new Vector2f(elements[i].Title.Position.X + elementSizeWithOffset, elements[i].Title.Position.Y),
-														dt);
-			}
-		}
-
-		private Vector2f Lerp(Vector2f v1, Vector2f v2, float t)
-		{
-			return v1 + (v2 - v1) * t;
 		}
 
 		public void Init(MainClass main, RenderWindow window)

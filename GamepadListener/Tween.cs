@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using SFML.System;
 
 namespace GamepadListener
@@ -20,6 +16,9 @@ namespace GamepadListener
 	abstract class Tween<T>
 	{
 		public FinishedAnimation OnFinished;
+
+		protected bool isRunning;
+		protected TweenType twType;
 		
 		/// <summary>
 		/// Starts an animation
@@ -30,7 +29,7 @@ namespace GamepadListener
 		public abstract void Animate(T start, T end, int ms, TweenType type = TweenType.Linear);
 
 		/// <summary>
-		/// Cancels an animation
+		/// Stops an animation
 		/// </summary>
 		public abstract void Cancel();
 
@@ -41,7 +40,7 @@ namespace GamepadListener
 		/// <param name="dt">Delta time</param>
 		public abstract void Update(ref T value, int dt);
 
-		public abstract bool IsRunning();
+		public bool IsRunning() { return isRunning; }
 
 		public abstract T End();
 		public abstract T Start();
@@ -49,13 +48,10 @@ namespace GamepadListener
 
 	class TweenVector2f : Tween<Vector2f>
 	{
-		private bool isRunning;
-
 		private Vector2f startVal;
 		private Vector2f endVal;
 		private Vector2f newVal;
 		private float duration;
-		private TweenType ttype;
 		private DateTime startTime;
 
 		public override void Animate(Vector2f start, Vector2f end, int ms, TweenType type = TweenType.Linear)
@@ -64,7 +60,7 @@ namespace GamepadListener
 			endVal = end;
 			newVal = startVal;
 			duration = ms * 0.001f;
-			ttype = type;
+			twType = type;
 
 			isRunning = true;
 			startTime = DateTime.Now;
@@ -82,9 +78,9 @@ namespace GamepadListener
 			{
 				var rem = endVal - newVal;
 
-				if (Math.Abs(rem.X) > 10f || Math.Abs(rem.Y) > 10f)
+				if (Math.Abs(rem.X) > 10f || Math.Abs(rem.Y) > 10f) // TODO: fucking floats
 				{
-					switch (ttype)
+					switch (twType)
 					{
 						case TweenType.Linear:
 							newVal = value = startVal.Lerp(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
@@ -106,11 +102,6 @@ namespace GamepadListener
 					OnFinished?.Invoke(false);
 				}
 			}
-		}
-
-		public override bool IsRunning()
-		{
-			return isRunning;
 		}
 
 		public override Vector2f End()
