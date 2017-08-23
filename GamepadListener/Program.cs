@@ -3,6 +3,7 @@ using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
 using GamepadListener;
+using System.IO;
 
 class MainClass
 {
@@ -51,6 +52,20 @@ class MainClass
 		};
 
 		var main = new MainClass();
+
+        // if (!File.Exists("library.xml")) File.Create("library.xml");
+        var library = LibraryData.LoadFromFile("library.xml");
+        library.Items.Add(new LibraryItemApplication()
+        {
+            Path = "C:/abc",
+            Name = "abc",
+            Desc = "abc123",
+            Thumbnail = "C:/abcthumb.thumb",
+            PlayCount = 0,
+            LastPlayed = "123",
+        });
+        library.SaveToFile("library.xml");
+        Console.WriteLine(library);
 
 		Theme.LightTheme = new Theme()
 		{
