@@ -50,20 +50,19 @@ namespace GamepadListener
 	{
 		private Vector2f startVal;
 		private Vector2f endVal;
-		private Vector2f newVal;
 		private float duration;
 		private DateTime startTime;
+		private bool settime;
 
 		public override void Animate(Vector2f start, Vector2f end, int ms, TweenType type = TweenType.Linear)
 		{
 			startVal = start;
 			endVal = end;
-			newVal = startVal;
 			duration = ms * 0.001f;
 			twType = type;
 
 			isRunning = true;
-			startTime = DateTime.Now;
+			settime = false;
 		}
 
 		public override void Cancel()
@@ -76,23 +75,29 @@ namespace GamepadListener
 		{
 			if (isRunning)
 			{
-				var rem = endVal - newVal;
+				var rem = endVal - value;
 
-				if (Math.Abs(rem.X) > 10f || Math.Abs(rem.Y) > 10f) // TODO: fucking floats
+				if (!settime)
+				{
+					startTime = DateTime.Now;
+					settime = true;
+				}
+				
+				if (rem.Length() > 2f)
 				{
 					switch (twType)
 					{
 						case TweenType.Linear:
-							newVal = value = startVal.Lerp(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
+							value = startVal.Lerp(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
 							break;
 						case TweenType.EaseQuadIn:
-							newVal = value = startVal.EaseQuadIn(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
+							value = startVal.EaseQuadIn(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
 							break;
 						case TweenType.EaseCubicIn:
-							newVal = value = startVal.EaseCubicIn(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
+							value = startVal.EaseCubicIn(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
 							break;
 						case TweenType.EaseSineIn:
-							newVal = value = startVal.EaseSineIn(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
+							value = startVal.EaseSineIn(endVal, (float)(DateTime.Now - startTime).TotalSeconds / duration);
 							break;
 					}
 				}
