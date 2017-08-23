@@ -6,8 +6,9 @@ using GamepadListener;
 
 class MainClass
 {
-	public GamepadListener.IView currentView;
-	public GamepadListener.IView pendingView;
+	public IView currentView;
+	public IView pendingView;
+    public int sessionJoystickId;
 
 	static void Main(string[] args)
 	{

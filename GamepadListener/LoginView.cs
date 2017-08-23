@@ -15,6 +15,7 @@ namespace GamepadListener
         {
             if (ev.Button == 0)
             {
+                main.sessionJoystickId = (int)ev.JoystickId;
                 main.pendingView = new MainMenuView();
             }
         }
@@ -29,7 +30,7 @@ namespace GamepadListener
 
 		public void Init(MainClass main, RenderWindow window)
 		{
-			text = new Text("Press A to use the controller or RETURN to return to desktop.", new Font("OpenSans-Regular.ttf"), 24);
+			text = new Text("Press A on the controller you want to use or RETURN to return to desktop.", new Font("OpenSans-Regular.ttf"), 24);
 			text.FillColor = Theme.SelectedTheme.TextColor;
 			var rect = text.GetLocalBounds();
 			text.Position = new Vector2f(window.Size.X / 2 - rect.Width / 2.0f, window.Size.Y / 2 - rect.Height / 2.0f);
