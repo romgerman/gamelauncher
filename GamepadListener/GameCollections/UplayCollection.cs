@@ -8,7 +8,7 @@ namespace GamepadListener
 {
 	class UplayCollection
 	{
-		public List<string> games = new List<string>();
+		public List<LibraryItem> Games { get; private set; } = new List<LibraryItem>();
 
 		public void FetchGameList()
 		{
@@ -21,20 +21,21 @@ namespace GamepadListener
 
 				foreach (var subKey in gamesKeys)
 				{
-					games.Add(subKey);
-
-					// "Launcher" is not a game (it's a uplay launcher)
-					
-					/*using (var gameKey = originKey.OpenSubKey(subKey))
+					if (!subKey.Equals("Launcher"))
 					{
-						string[] vn = gameKey.GetValueNames();
+						string installPath = null;
 
-						
-							//we can get install path here
-						 
+						using (var gameKey = originKey.OpenSubKey(subKey))
+						{
+							installPath = gameKey.GetValue("Install path") as string; // It could not exist
+						}
 
-						games.Add((string)gameKey.GetValue("Install path"));
-					}*/
+						Games.Add(new LibraryItem()
+						{
+							Name = subKey,
+							Path = installPath // TODO: And here we also need to get exe path
+						});
+					}
 				}
 			}
 		}

@@ -74,6 +74,7 @@ class MainClass
 			CursorOutlineColor = new Color(0x10a6c0ff),
             FontName = "OpenSans-Regular.ttf"
 		};
+
 		Theme.DarkTheme = new Theme()
 		{
 			TextColor = new Color(0xf7f7f7ff),
@@ -81,6 +82,7 @@ class MainClass
 			CursorOutlineColor = new Color(0x10a6c0ff),
             FontName = "OpenSans-Regular.ttf"
 		};
+
 		Theme.SelectedTheme = Theme.LightTheme;
 
 		main.currentView = new LoginView();

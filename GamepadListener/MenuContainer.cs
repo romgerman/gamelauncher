@@ -21,7 +21,7 @@ namespace GamepadListener
 
 		public void AnimatePosition(Vector2f newpos, int duration)
 		{
-			Animation.Animate(Rectangle.Position, newpos, duration, TweenType.EaseSineIn);
+			Animation.Animate(Rectangle.Position, newpos, duration, TweenType.Linear);
 		}
 
 		public void UpdateAnimation(int dt)
@@ -106,31 +106,33 @@ namespace GamepadListener
 		public void SelectNext()
 		{
 			if (selectedIndex + 1 == elements.Count)
-				SelectItem(0);
-			else
-				SelectItem(selectedIndex + 1);
-
-			for (int i = 0; i < elements.Count; i++)
 			{
-				var position = elements[i].Rectangle.Position.X;
-
-				if (elements[i].Animation.IsRunning())
-				{
-					position = elements[i].Animation.End().X;
-				}
-
-				elements[i].AnimatePosition(new Vector2f(position - elementSizeWithOffset, // TODO: sometghing with offset or is it because of float comparison in tween
-														 elements[i].Rectangle.Position.Y), 500);
+				SelectItem(0);
+				AnimateAll(elementSizeWithOffset * (elements.Count - 1), 500);
 			}
+			else
+			{
+				SelectItem(selectedIndex + 1);
+				AnimateAll(-elementSizeWithOffset, 500);
+			}			
 		}
 		
 		public void SelectPrev()
 		{
 			if (selectedIndex - 1 < 0)
+			{
 				SelectItem(elements.Count - 1);
+				AnimateAll(-elementSizeWithOffset * (elements.Count - maxWholeElementsOnScreen), 500);
+			}
 			else
+			{
 				SelectItem(selectedIndex - 1);
+				AnimateAll(elementSizeWithOffset, 500);
+			}
+		}
 
+		private void AnimateAll(float offset, int duration)
+		{
 			for (int i = 0; i < elements.Count; i++)
 			{
 				var position = elements[i].Rectangle.Position.X;
@@ -140,8 +142,8 @@ namespace GamepadListener
 					position = elements[i].Animation.End().X;
 				}
 
-				elements[i].AnimatePosition(new Vector2f(position + elementSizeWithOffset, // TODO: sometghing with offset or is it because of float comparison in tween
-														 elements[i].Rectangle.Position.Y), 500);
+				elements[i].AnimatePosition(new Vector2f(position + offset,
+														 elements[i].Rectangle.Position.Y), duration);
 			}
 		}
 
@@ -161,19 +163,29 @@ namespace GamepadListener
 
 			// This is just for testing
 
-			SteamCollection collection = new SteamCollection();
-			OriginCollection oc = new OriginCollection();
-			//oc.FetchGameList();
-			UplayCollection uc = new UplayCollection();
-			//uc.FetchGameList();
-			//collection.FetchGameList();
+			SteamCollection steam = new SteamCollection();
+			steam.FetchGameList();
+			OriginCollection origin = new OriginCollection();
+			origin.FetchGameList();
+			UplayCollection uplay = new UplayCollection();
+			uplay.FetchGameList();
 
-			//foreach(string name in collection.games)
-			//{
-				//AddItem(name, Color.Black);
-			//}
+			foreach(var g in steam.Games)
+			{
+				AddItem(g.Name, Color.Black);
+			}
 
-			AddItem("First game", Color.Green);
+			foreach (var g in origin.Games)
+			{
+				AddItem(g.Name, Color.Black);
+			}
+
+			foreach (var g in uplay.Games)
+			{
+				AddItem(g.Name, Color.Black);
+			}
+
+			/*AddItem("First game", Color.Green);
 			AddItem("Game Number Two", Color.Red);
 			AddItem("Game Number Three", Color.Black);
 			AddItem("Game Number Four", Color.Yellow);
@@ -181,7 +193,7 @@ namespace GamepadListener
 			AddItem("Game Number Six", Color.Blue);
 			AddItem("Game Number Seven", Color.Red);
 			AddItem("Game Number Eight", Color.Cyan);
-			AddItem("Game Number Nine", Color.Black);
+			AddItem("Game Number Nine", Color.Black);*/
 
 			SelectItem(0);
 		}

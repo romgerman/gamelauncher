@@ -8,7 +8,7 @@ namespace GamepadListener
 {
 	class OriginCollection
 	{
-		public List<string> games = new List<string>();
+		public List<LibraryItem> Games { get; private set; } = new List<LibraryItem>();
 
 		public void FetchGameList()
 		{
@@ -25,18 +25,11 @@ namespace GamepadListener
 					{
 						string[] vn = gameKey.GetValueNames();
 
-						/*
-							GDFBinary
-							GameExplorer
-							GDFBinary64
-							"GameExplorer64"
-							"DisplayName"
-							"Locale"
-							"Product GUID"
-							"Install Dir"
-						 */
-
-						games.Add((string)gameKey.GetValue("DisplayName"));
+						Games.Add(new LibraryItem()
+						{
+							Name = (string)gameKey.GetValue("DisplayName"),
+							Path = (string)gameKey.GetValue("Install Dir") // TODO: And here we need to get exe path somehow too
+						});
 					}
 				}
 			}
