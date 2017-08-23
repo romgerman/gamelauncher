@@ -105,7 +105,7 @@ namespace GamepadListener
 				gamepadAttachedText.DisplayedString = connectedJoystickCount.ToString();
 			};
 
-			window.JoystickButtonPressed += (sender, e) =>
+			/*window.JoystickButtonPressed += (sender, e) =>
 			{
 				var elementHasChanged = false;
 
@@ -124,6 +124,31 @@ namespace GamepadListener
 				{
 					currentElementTitleText.DisplayedString = menuContainer.GetSelectedItem().Name;
 				}
+			};*/
+
+			window.JoystickMoved += (sender, e) =>
+			{
+				if(e.Axis == Joystick.Axis.PovX)
+				{
+					var elementHasChanged = false;
+
+					if(e.Position < 0)
+					{
+						menuContainer.SelectPrev();
+						elementHasChanged = true;
+
+					}
+					else if(e.Position > 0)
+					{
+						menuContainer.SelectNext();
+						elementHasChanged = true;
+					}
+
+					if (elementHasChanged)
+					{
+						currentElementTitleText.DisplayedString = menuContainer.GetSelectedItem().Name;
+					}
+				}
 			};
 		}
 
@@ -134,8 +159,6 @@ namespace GamepadListener
 			gamepadAttachedText.Draw(window, RenderStates.Default);
 			topBarBorder.Draw(window, RenderStates.Default);
 
-			if(!joystickConnected) noJoystickNotice.Draw(window, RenderStates.Default);
-
 			if (menuContainer.Empty())
 			{
 				libraryEmptyNotice.Draw(window, RenderStates.Default);
@@ -144,6 +167,8 @@ namespace GamepadListener
 			currentElementTitleText.Draw(window, RenderStates.Default);
 
 			menuContainer.Render(window);
+
+			if (!joystickConnected) noJoystickNotice.Draw(window, RenderStates.Default);
 		}
 
 		public void Update(Window window, int dt)
