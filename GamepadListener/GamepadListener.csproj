@@ -74,6 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="GameCollections\OriginCollection.cs" />
+    <Compile Include="GameCollections\UplayCollection.cs" />
     <Compile Include="GuideButton.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="LoginView.cs" />
@@ -81,7 +83,7 @@
     <Compile Include="MenuContainer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SteamCollection.cs" />
+    <Compile Include="GameCollections\SteamCollection.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Tween.cs" />
     <Compile Include="ValveKeyValueParser.cs" />

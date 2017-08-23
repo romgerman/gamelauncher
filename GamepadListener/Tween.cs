@@ -11,7 +11,7 @@ namespace GamepadListener
 		EaseSineIn
 	}
 
-	public delegate void FinishedAnimation(bool cancelled);
+	delegate void FinishedAnimation(bool cancelled);
 
 	abstract class Tween<T>
 	{

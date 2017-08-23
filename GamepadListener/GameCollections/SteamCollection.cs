@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Win32;
@@ -14,7 +12,7 @@ namespace GamepadListener
 
 		public void FetchGameList()
 		{
-			string steamInstallDir = Registry.GetValue("HKEY_CURRENT_USER\\Software\\Valve\\Steam\\", "SteamPath", null) as string;
+			string steamInstallDir = Registry.GetValue("HKEY_CURRENT_USER\\Software\\Valve\\Steam", "SteamPath", null) as string;
 
 			if (steamInstallDir == null) // Steam is not installed
 				return;
