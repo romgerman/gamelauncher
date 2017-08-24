@@ -3,6 +3,7 @@ using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GamepadListener
 {
@@ -105,27 +106,6 @@ namespace GamepadListener
 				gamepadAttachedText.DisplayedString = connectedJoystickCount.ToString();
 			};
 
-			/*window.JoystickButtonPressed += (sender, e) =>
-			{
-				var elementHasChanged = false;
-
-				if(e.Button == 0)
-				{
-					menuContainer.SelectPrev();
-					elementHasChanged = true;
-				}
-				else if(e.Button == 2)
-				{
-					menuContainer.SelectNext();
-					elementHasChanged = true;
-				}
-
-				if (elementHasChanged)
-				{
-					currentElementTitleText.DisplayedString = menuContainer.GetSelectedItem().Name;
-				}
-			};*/
-
 			window.JoystickMoved += (sender, e) =>
 			{
 				if(e.Axis == Joystick.Axis.PovX)
@@ -147,6 +127,27 @@ namespace GamepadListener
 					if (elementHasChanged)
 					{
 						currentElementTitleText.DisplayedString = menuContainer.GetSelectedItem().Name;
+					}
+				}
+			};
+
+			window.JoystickButtonPressed += (sender, e) =>
+			{
+				// 0 = A button
+				if(e.Button == 0)
+				{
+					var current = main.library.GetWithName(menuContainer.GetSelectedItem().Name);
+					if(!String.IsNullOrEmpty(current.Path))
+					{
+						Process proc = new Process();
+						proc.StartInfo.FileName = current.Path;
+						proc.Start();
+						proc.WaitForExit();
+						Console.WriteLine("Process exited with exit code {0}", proc.ExitCode);
+					}
+					else
+					{
+						Console.WriteLine("Current element '{0}' has no path.", current);
 					}
 				}
 			};

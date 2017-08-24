@@ -10,6 +10,50 @@ class MainClass
 	public GamepadListener.View currentView;
 	public GamepadListener.View pendingView;
     public int sessionJoystickId;
+	public Library library;
+
+	void PopulateLibraryWithGameCollections()
+	{
+		SteamCollection steam = new SteamCollection();
+		steam.FetchGameList();
+		OriginCollection origin = new OriginCollection();
+		origin.FetchGameList();
+		UplayCollection uplay = new UplayCollection();
+		uplay.FetchGameList();
+
+		foreach (var g in steam.Games)
+		{
+			if (!library.HasWithName(g.Name))
+			{
+				library.AddItem(new LibraryItemApplication()
+				{
+					Name = g.Name,
+				});
+			}
+		}
+
+		foreach (var g in origin.Games)
+		{
+			if (!library.HasWithName(g.Name))
+			{
+				library.AddItem(new LibraryItemApplication()
+				{
+					Name = g.Name,
+				});
+			}
+		}
+
+		foreach (var g in uplay.Games)
+		{
+			if (!library.HasWithName(g.Name))
+			{
+				library.AddItem(new LibraryItemApplication()
+				{
+					Name = g.Name,
+				});
+			}
+		}
+	}
 
 	static void Main(string[] args)
 	{
@@ -21,8 +65,6 @@ class MainClass
 		Console.WriteLine("0: {0}, 1: {1}, 2: {2}, 3: {3}", Joystick.IsConnected(0), Joystick.IsConnected(1), Joystick.IsConnected(2), Joystick.IsConnected(3));
 		Console.WriteLine("VendorID: {0} Product ID: {1}", id.VendorId, id.ProductId);
 		var controller_name = "Joystick Use: " + id.Name;
-
-		window.SetTitle(controller_name);
 
 		if(Joystick.IsConnected(0))
 		{
@@ -45,27 +87,16 @@ class MainClass
 		{
 			if(ev.Code == Keyboard.Key.Escape)
 			{
-				window.Close();
 				running = false;
-				Environment.Exit(0);
 			}
 		};
 
 		var main = new MainClass();
 
-        // if (!File.Exists("library.xml")) File.Create("library.xml");
-        var library = LibraryData.LoadFromFile("library.xml");
-        library.Items.Add(new LibraryItemApplication()
-        {
-            Path = "C:/abc",
-            Name = "abc",
-            Desc = "abc123",
-            Thumbnail = "C:/abcthumb.thumb",
-            PlayCount = 0,
-            LastPlayed = "123",
-        });
-        library.SaveToFile("library.xml");
-        Console.WriteLine(library);
+		const string libraryFileName = "library.xml";
+		main.library = new Library().LoadFromFile(libraryFileName);
+		main.PopulateLibraryWithGameCollections();
+		main.library.SaveToFile(libraryFileName);
 
 		Theme.LightTheme = new Theme()
 		{
@@ -102,13 +133,6 @@ class MainClass
 				main.pendingView = null;
 			}
 
-			if (Joystick.IsButtonPressed(0, 1))
-			{
-				Console.WriteLine("B was pressed");
-				window.Close();
-				Environment.Exit(0);
-			}
-
 			timeSinceLastUpdate += tickClock.Restart();
 
 			while (timeSinceLastUpdate > timePerFrame)
@@ -122,5 +146,7 @@ class MainClass
 				window.Display();
 			}
 		}
+
+		window.Close();
 	}
 }
