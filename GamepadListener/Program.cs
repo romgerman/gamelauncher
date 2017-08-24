@@ -137,9 +137,7 @@ class MainClass
 
 			if (Joystick.IsButtonPressed(0, 1))
 			{
-				Console.WriteLine("B was pressed");
-				window.Close();
-				Environment.Exit(0);
+				running = false;
 			}
 
 			timeSinceLastUpdate += tickClock.Restart();
