@@ -87,9 +87,7 @@ class MainClass
 		{
 			if(ev.Code == Keyboard.Key.Escape)
 			{
-				// window.Close();
 				running = false;
-				// Environment.Exit(0);
 			}
 		};
 
@@ -133,11 +131,6 @@ class MainClass
 				main.currentView = main.pendingView;
 				main.currentView.Init(main, window);
 				main.pendingView = null;
-			}
-
-			if (Joystick.IsButtonPressed(0, 1))
-			{
-				running = false;
 			}
 
 			timeSinceLastUpdate += tickClock.Restart();
