@@ -10,6 +10,50 @@ class MainClass
 	public IView currentView;
 	public IView pendingView;
     public int sessionJoystickId;
+	public LibraryData library;
+
+	void PopulateLibraryWithGameCollections()
+	{
+		SteamCollection steam = new SteamCollection();
+		steam.FetchGameList();
+		OriginCollection origin = new OriginCollection();
+		origin.FetchGameList();
+		UplayCollection uplay = new UplayCollection();
+		uplay.FetchGameList();
+
+		foreach (var g in steam.Games)
+		{
+			if (!library.Items.Exists(x => x.Name == g.Name))
+			{
+				library.Items.Add(new LibraryItemApplication()
+				{
+					Name = g.Name,
+				});
+			}
+		}
+
+		foreach (var g in origin.Games)
+		{
+			if (!library.Items.Exists(x => x.Name == g.Name))
+			{
+				library.Items.Add(new LibraryItemApplication()
+				{
+					Name = g.Name,
+				});
+			}
+		}
+
+		foreach (var g in uplay.Games)
+		{
+			if (!library.Items.Exists(x => x.Name == g.Name))
+			{
+				library.Items.Add(new LibraryItemApplication()
+				{
+					Name = g.Name,
+				});
+			}
+		}
+	}
 
 	static void Main(string[] args)
 	{
@@ -21,8 +65,6 @@ class MainClass
 		Console.WriteLine("0: {0}, 1: {1}, 2: {2}, 3: {3}", Joystick.IsConnected(0), Joystick.IsConnected(1), Joystick.IsConnected(2), Joystick.IsConnected(3));
 		Console.WriteLine("VendorID: {0} Product ID: {1}", id.VendorId, id.ProductId);
 		var controller_name = "Joystick Use: " + id.Name;
-
-		window.SetTitle(controller_name);
 
 		if(Joystick.IsConnected(0))
 		{
@@ -53,19 +95,9 @@ class MainClass
 
 		var main = new MainClass();
 
-        // if (!File.Exists("library.xml")) File.Create("library.xml");
-        var library = LibraryData.LoadFromFile("library.xml");
-        library.Items.Add(new LibraryItemApplication()
-        {
-            Path = "C:/abc",
-            Name = "abc",
-            Desc = "abc123",
-            Thumbnail = "C:/abcthumb.thumb",
-            PlayCount = 0,
-            LastPlayed = "123",
-        });
-        library.SaveToFile("library.xml");
-        Console.WriteLine(library);
+        main.library = LibraryData.LoadFromFile("library.xml");
+		main.PopulateLibraryWithGameCollections();
+		main.library.SaveToFile("library.xml");
 
 		Theme.LightTheme = new Theme()
 		{

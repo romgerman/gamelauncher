@@ -159,41 +159,12 @@ namespace GamepadListener
 
 		public void Init(MainClass main, RenderWindow window)
 		{
-			this.rwindow = window;
+			rwindow = window;
 
-			// This is just for testing
-
-			SteamCollection steam = new SteamCollection();
-			steam.FetchGameList();
-			OriginCollection origin = new OriginCollection();
-			origin.FetchGameList();
-			UplayCollection uplay = new UplayCollection();
-			uplay.FetchGameList();
-
-			foreach(var g in steam.Games)
+			foreach(var i in main.library.Items)
 			{
-				AddItem(g.Name, Color.Black);
+				AddItem(i.Name, Color.Black);
 			}
-
-			foreach (var g in origin.Games)
-			{
-				AddItem(g.Name, Color.Black);
-			}
-
-			foreach (var g in uplay.Games)
-			{
-				AddItem(g.Name, Color.Black);
-			}
-
-			/*AddItem("First game", Color.Green);
-			AddItem("Game Number Two", Color.Red);
-			AddItem("Game Number Three", Color.Black);
-			AddItem("Game Number Four", Color.Yellow);
-			AddItem("Game Number Five", Color.Magenta);
-			AddItem("Game Number Six", Color.Blue);
-			AddItem("Game Number Seven", Color.Red);
-			AddItem("Game Number Eight", Color.Cyan);
-			AddItem("Game Number Nine", Color.Black);*/
 
 			SelectItem(0);
 		}

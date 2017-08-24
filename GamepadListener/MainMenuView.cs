@@ -105,27 +105,6 @@ namespace GamepadListener
 				gamepadAttachedText.DisplayedString = connectedJoystickCount.ToString();
 			};
 
-			/*window.JoystickButtonPressed += (sender, e) =>
-			{
-				var elementHasChanged = false;
-
-				if(e.Button == 0)
-				{
-					menuContainer.SelectPrev();
-					elementHasChanged = true;
-				}
-				else if(e.Button == 2)
-				{
-					menuContainer.SelectNext();
-					elementHasChanged = true;
-				}
-
-				if (elementHasChanged)
-				{
-					currentElementTitleText.DisplayedString = menuContainer.GetSelectedItem().Name;
-				}
-			};*/
-
 			window.JoystickMoved += (sender, e) =>
 			{
 				if(e.Axis == Joystick.Axis.PovX)
