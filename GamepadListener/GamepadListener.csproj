@@ -86,6 +86,10 @@
     <Compile Include="GameCollections\SteamCollection.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Tween.cs" />
+    <Compile Include="UI\Layouts\UIStack.cs" />
+    <Compile Include="UI\UIButton.cs" />
+    <Compile Include="UI\UIDialog.cs" />
+    <Compile Include="UI\UIText.cs" />
     <Compile Include="ValveKeyValueParser.cs" />
     <Compile Include="View.cs" />
   </ItemGroup>

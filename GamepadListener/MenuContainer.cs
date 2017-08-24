@@ -33,7 +33,7 @@ namespace GamepadListener
 		}
 	}
 
-	class MenuContainer : IView
+	class MenuContainer : View
 	{
 		private List<MenuItem> elements;
 		private Vector2f menuPosition;
