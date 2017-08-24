@@ -16,7 +16,7 @@ namespace GamepadListener
 		Y = 3, // top
 	}
 
-	class MainMenuView : View
+	class MainMenuView : IView
 	{
 		Text timeText;
 		Text usernameText;

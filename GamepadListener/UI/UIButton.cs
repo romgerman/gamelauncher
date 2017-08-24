@@ -13,7 +13,7 @@ namespace GamepadListener.UI
 	// TODO: maybe we need to make layouts or something too?
 	// 
 
-	class UIButton : View
+	class UIButton : IView
 	{
 		private RectangleShape _background;
 		private Text _title;

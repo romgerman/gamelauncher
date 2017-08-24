@@ -91,7 +91,7 @@
     <Compile Include="UI\UIDialog.cs" />
     <Compile Include="UI\UIText.cs" />
     <Compile Include="ValveKeyValueParser.cs" />
-    <Compile Include="View.cs" />
+    <Compile Include="IView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -5,7 +5,7 @@ using SFML.Window;
 
 namespace GamepadListener
 {
-	class LoginView : View
+	class LoginView : IView
 	{
 		Text text;
 		MainClass main;
