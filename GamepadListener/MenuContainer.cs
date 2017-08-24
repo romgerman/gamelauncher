@@ -161,7 +161,7 @@ namespace GamepadListener
 		{
 			rwindow = window;
 
-			foreach(var i in main.library.Items)
+			foreach(var i in main.library.GetAllItems())
 			{
 				AddItem(i.Name, Color.Black);
 			}

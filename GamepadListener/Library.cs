@@ -69,5 +69,37 @@ namespace GamepadListener
     class Library
     {
         LibraryData Data { get; set; }
+
+		public void SaveToFile(string filename)
+		{
+			Data.SaveToFile(filename);
+		}
+
+		public Library LoadFromFile(string filename)
+		{
+			Data = LibraryData.LoadFromFile(filename);
+			return this;
+		}
+
+		public LibraryItem AddItem(LibraryItem item)
+		{
+			Data.Items.Add(item);
+			return item;
+		}
+
+		public LibraryItem GetWithName(string name)
+		{
+			return Data.Items.Find(i => i.Name == name);
+		}
+
+		public bool HasWithName(string name)
+		{
+			return Data.Items.Exists(i => i.Name == name);
+		}
+
+		public List<LibraryItem> GetAllItems()
+		{
+			return Data.Items;
+		}
     }
 }

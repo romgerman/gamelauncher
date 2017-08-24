@@ -10,7 +10,7 @@ class MainClass
 	public IView currentView;
 	public IView pendingView;
     public int sessionJoystickId;
-	public LibraryData library;
+	public Library library;
 
 	void PopulateLibraryWithGameCollections()
 	{
@@ -23,9 +23,9 @@ class MainClass
 
 		foreach (var g in steam.Games)
 		{
-			if (!library.Items.Exists(x => x.Name == g.Name))
+			if (!library.HasWithName(g.Name))
 			{
-				library.Items.Add(new LibraryItemApplication()
+				library.AddItem(new LibraryItemApplication()
 				{
 					Name = g.Name,
 				});
@@ -34,9 +34,9 @@ class MainClass
 
 		foreach (var g in origin.Games)
 		{
-			if (!library.Items.Exists(x => x.Name == g.Name))
+			if (!library.HasWithName(g.Name))
 			{
-				library.Items.Add(new LibraryItemApplication()
+				library.AddItem(new LibraryItemApplication()
 				{
 					Name = g.Name,
 				});
@@ -45,9 +45,9 @@ class MainClass
 
 		foreach (var g in uplay.Games)
 		{
-			if (!library.Items.Exists(x => x.Name == g.Name))
+			if (!library.HasWithName(g.Name))
 			{
-				library.Items.Add(new LibraryItemApplication()
+				library.AddItem(new LibraryItemApplication()
 				{
 					Name = g.Name,
 				});
@@ -87,17 +87,18 @@ class MainClass
 		{
 			if(ev.Code == Keyboard.Key.Escape)
 			{
-				window.Close();
+				// window.Close();
 				running = false;
-				Environment.Exit(0);
+				// Environment.Exit(0);
 			}
 		};
 
 		var main = new MainClass();
 
-        main.library = LibraryData.LoadFromFile("library.xml");
+		const string libraryFileName = "library.xml";
+		main.library = new Library().LoadFromFile(libraryFileName);
 		main.PopulateLibraryWithGameCollections();
-		main.library.SaveToFile("library.xml");
+		main.library.SaveToFile(libraryFileName);
 
 		Theme.LightTheme = new Theme()
 		{
@@ -154,5 +155,7 @@ class MainClass
 				window.Display();
 			}
 		}
+
+		window.Close();
 	}
 }
