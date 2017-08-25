@@ -50,6 +50,7 @@ namespace GamepadListener.UI
 
 		public void Add(IUIElement item)
 		{
+			item.Offset = new Vector2f(Bounds.Left, Bounds.Top);
 			_elements.Add(item);
 		}
 

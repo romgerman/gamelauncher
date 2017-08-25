@@ -34,7 +34,11 @@ namespace GamepadListener.UI
 		public Vector2f Offset
 		{
 			get { return _offset; }
-			set { _offset = value; }
+			set
+			{
+				_offset = value;
+				_text.Position = _offset;
+			}
 		}
 
 		private Vector2f _offset;
