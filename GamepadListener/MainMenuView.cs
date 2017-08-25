@@ -16,7 +16,7 @@ namespace GamepadListener
 		Y = 3, // top
 	}
 
-	class MainMenuView : IView
+	class MainMenuView : IDrawable
 	{
 		Text timeText;
 		Text usernameText;
@@ -151,7 +151,24 @@ namespace GamepadListener
 					}
 				}
 			};
+
+			// Testing UI
+
+			sampleView = new UI.UIView();
+			sampleView.Bounds = new FloatRect(0, 0, window.Size.X, window.Size.Y);
+
+			sampleText = new UI.UIText("Hello world");
+			sampleButton = new UI.UIButton();
+			sampleButton.Body = sampleText;
+
+			sampleView.Add(sampleButton);
+
+			sampleView.Init(main, window);
 		}
+
+		UI.UIView sampleView;
+		UI.UIText sampleText;
+		UI.UIButton sampleButton;
 
 		public void Render(RenderWindow window)
 		{
@@ -170,6 +187,9 @@ namespace GamepadListener
 			menuContainer.Render(window);
 
 			if (!joystickConnected) noJoystickNotice.Draw(window, RenderStates.Default);
+
+
+			sampleView.Render(window);
 		}
 
 		public void Update(Window window, int dt)

@@ -3,7 +3,7 @@ using SFML.Window;
 
 namespace GamepadListener
 {
-	interface IView
+	interface IDrawable
 	{
 		void Init(MainClass main, RenderWindow window);
         void Deinit();

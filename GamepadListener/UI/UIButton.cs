@@ -10,49 +10,81 @@ using SFML.Window;
 
 namespace GamepadListener.UI
 {
-	// TODO: maybe we need to make layouts or something too?
-	// 
-
-	class UIButton : IView
+	/// <summary>
+	/// Button. Clickable container for UI objects
+	/// </summary>
+	class UIButton : IUIElement
 	{
 		private RectangleShape _background;
-		private Text _title;
-
-		public UIButton(Vector2f position, string text = "", float width = 0f, float height = 0f)
+		
+		public Color Background
 		{
-			_background = new RectangleShape(new Vector2f(width, height));
-			_background.Position = position;
-			_title = new Text(text, Theme.SelectedTheme.GetFont());
+			get { return _background.FillColor; }
+			set { _background.FillColor = value; }
 		}
 
-		public void SetText(string text)
+		public float Padding
 		{
-			_title.DisplayedString = text;
+			get { return _padding; }
+			set { _padding = value; }
 		}
 
-		public void SetSizeRelativeToText()
-		{
+		private float _padding;
 
+		public IUIElement Body
+		{
+			get { return _body; }
+			set { _body = value; }
+		}
+
+		private IUIElement _body;
+
+		public Vector2f Offset
+		{
+			get { return _offset; }
+			set { _offset = value; }
+		}
+
+		private Vector2f _offset;
+
+		public FloatRect Bounds => _background.GetLocalBounds();
+
+		public IUIElement Parent
+		{
+			get { return _parent; }
+			protected set { _parent = value; }
+		}
+
+		private IUIElement _parent;
+
+		public UIButton()
+		{
+			_background = new RectangleShape();
+		}
+
+		public T GetBody<T>() where T : IUIElement
+		{
+			return (T)_body;
 		}
 
 		public void Init(MainClass main, RenderWindow window)
 		{
-			
+			_body.Init(main, window);
 		}
 
 		public void Deinit()
 		{
-			throw new NotImplementedException();
+			_background.Dispose();
 		}
 
 		public void Render(RenderWindow window)
 		{
-			throw new NotImplementedException();
+			_background.Draw(window, RenderStates.Default);
 		}
 
 		public void Update(Window window, int dt)
 		{
-			throw new NotImplementedException();
+			_body.Update(window, dt);
 		}
 	}
 }
