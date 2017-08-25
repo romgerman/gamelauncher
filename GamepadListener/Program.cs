@@ -7,8 +7,8 @@ using System.IO;
 
 class MainClass
 {
-	public GamepadListener.IView currentView;
-	public GamepadListener.IView pendingView;
+	public IDrawable currentView;
+	public IDrawable pendingView;
     public int sessionJoystickId;
 	public Library library;
 

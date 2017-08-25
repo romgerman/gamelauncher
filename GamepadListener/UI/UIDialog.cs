@@ -3,10 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFML.System;
+using SFML.Graphics;
+using SFML.Window;
 
 namespace GamepadListener.UI
 {
-	class UIDialog
+	/// <summary>
+	/// Dialog object. Can be used for any dialogs
+	/// </summary>
+	class UIDialog : IUIElement
 	{
+		public Vector2f Offset
+		{
+			get { return _offset; }
+			set { _offset = value; }
+		}
+
+		public FloatRect Bounds
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public IUIElement Parent
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		private Vector2f _offset;
+
+		public void Init(MainClass main, RenderWindow window)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Deinit()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Render(RenderWindow window)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Update(Window window, int dt)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

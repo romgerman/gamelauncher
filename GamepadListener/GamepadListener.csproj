@@ -76,6 +76,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="GameCollections\OriginCollection.cs" />
     <Compile Include="GameCollections\UplayCollection.cs" />
+    <Compile Include="Gamepad.cs" />
     <Compile Include="GuideButton.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="LoginView.cs" />
@@ -86,12 +87,14 @@
     <Compile Include="GameCollections\SteamCollection.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Tween.cs" />
+    <Compile Include="UI\IUIElement.cs" />
     <Compile Include="UI\Layouts\UIStack.cs" />
     <Compile Include="UI\UIButton.cs" />
     <Compile Include="UI\UIDialog.cs" />
     <Compile Include="UI\UIText.cs" />
+    <Compile Include="UI\UIView.cs" />
     <Compile Include="ValveKeyValueParser.cs" />
-    <Compile Include="IView.cs" />
+    <Compile Include="IDrawable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
