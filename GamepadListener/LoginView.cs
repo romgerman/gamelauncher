@@ -24,7 +24,7 @@ namespace GamepadListener
         {
             if(ev.Code == Keyboard.Key.Return)
             {
-				Environment.Exit(0);
+				launcher.Quit();
             }
         }
 
