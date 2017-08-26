@@ -11,6 +11,7 @@ class MainClass
 	public IDrawable pendingView;
     public int sessionJoystickId;
 	public Library library;
+	public Session session;
 
 	void PopulateLibraryWithGameCollections()
 	{
@@ -92,6 +93,8 @@ class MainClass
 		};
 
 		var main = new MainClass();
+
+		main.session = new Session(0, "");
 
 		const string libraryFileName = "library.xml";
 		main.library = new Library().LoadFromFile(libraryFileName);

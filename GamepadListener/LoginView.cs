@@ -15,7 +15,7 @@ namespace GamepadListener
         {
             if (ev.Button == 0)
             {
-                main.sessionJoystickId = (int)ev.JoystickId;
+				main.session = new Session(ev.JoystickId, Environment.UserName);
                 main.pendingView = new MainMenuView();
             }
         }

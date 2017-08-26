@@ -7,20 +7,11 @@ using System.Diagnostics;
 
 namespace GamepadListener
 {
-	enum PossibleGamepadButton : uint // TODO: Maybe?
-	{
-		// Right part of gamepad
-		X = 0, // left
-		A = 1, // bottom
-		B = 2, // right
-		Y = 3, // top
-	}
-
 	class MainMenuView : IDrawable
 	{
 		Text timeText;
 		Text usernameText;
-		Text gamepadAttachedText;
+		// Text gamepadAttachedText;
 		Text noJoystickNotice;
 		Text libraryEmptyNotice;
 		Text currentElementTitleText;
@@ -28,7 +19,7 @@ namespace GamepadListener
 		RectangleShape topBarBorder;
 
 		bool joystickConnected;
-		int connectedJoystickCount;
+		// int connectedJoystickCount;
 
 		MenuContainer menuContainer = new MenuContainer();
 
@@ -47,12 +38,13 @@ namespace GamepadListener
 			var rectTimeText = timeText.GetLocalBounds();
 			timeText.Position = new Vector2f(window.Size.X - rectTimeText.Width - 20, 10);
 
-			gamepadAttachedText = new Text("0", font, 16);
+			// TODO: Maybe make this text display which gamepad is currently used
+			/*gamepadAttachedText = new Text("0", font, 16);
 			gamepadAttachedText.FillColor = Theme.SelectedTheme.TextColor;
 			var rectGamepadAttachedText = gamepadAttachedText.GetGlobalBounds();
-			gamepadAttachedText.Position = new Vector2f(timeText.Position.X - rectGamepadAttachedText.Width - 20, 10);
+			gamepadAttachedText.Position = new Vector2f(timeText.Position.X - rectGamepadAttachedText.Width - 20, 10);*/
 
-			usernameText = new Text(Environment.UserName, font, 16);
+			usernameText = new Text(main.session.UserName, font, 16);
 			usernameText.FillColor = Theme.SelectedTheme.TextColor;
 			usernameText.Position = new Vector2f(20, 10);
 
@@ -78,18 +70,18 @@ namespace GamepadListener
 			currentElementTitleText.DisplayedString = menuContainer.GetSelectedItem().Name;
 
 
-			for (uint i = 0; i < Joystick.Count; i++)
+			/*for (uint i = 0; i < Joystick.Count; i++)
 			{
 				if(Joystick.IsConnected(i))
 				{
 					joystickConnected = true;
 					connectedJoystickCount++;
 				}
-			}
+			}*/
 
-			gamepadAttachedText.DisplayedString = connectedJoystickCount.ToString();
+			// gamepadAttachedText.DisplayedString = connectedJoystickCount.ToString();
 
-			window.JoystickConnected += (sender, e) => {
+			/*window.JoystickConnected += (sender, e) => {
 				joystickConnected = true;
 				connectedJoystickCount++;
 
@@ -104,6 +96,24 @@ namespace GamepadListener
 				}
 
 				gamepadAttachedText.DisplayedString = connectedJoystickCount.ToString();
+			};*/
+
+			joystickConnected = Joystick.IsConnected(main.session.SessionGamepadId);
+
+			window.JoystickConnected += (sender, e) =>
+			{
+				if(e.JoystickId == main.session.SessionGamepadId)
+				{
+					joystickConnected = true;
+				}
+			};
+
+			window.JoystickDisconnected += (sender, e) =>
+			{
+				if(e.JoystickId == main.session.SessionGamepadId)
+				{
+					joystickConnected = false;
+				}
 			};
 
 			window.JoystickMoved += (sender, e) =>
@@ -174,7 +184,7 @@ namespace GamepadListener
 		{
 			timeText.Draw(window, RenderStates.Default);
 			usernameText.Draw(window, RenderStates.Default);
-			gamepadAttachedText.Draw(window, RenderStates.Default);
+			// gamepadAttachedText.Draw(window, RenderStates.Default);
 			topBarBorder.Draw(window, RenderStates.Default);
 
 			if (menuContainer.Empty())
