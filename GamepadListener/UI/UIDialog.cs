@@ -38,7 +38,7 @@ namespace GamepadListener.UI
 
 		private Vector2f _offset;
 
-		public void Init(MainClass main, RenderWindow window)
+		public void Init(GameLauncher launcher, RenderWindow window)
 		{
 			throw new NotImplementedException();
 		}

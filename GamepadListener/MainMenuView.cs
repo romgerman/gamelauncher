@@ -27,9 +27,9 @@ namespace GamepadListener
         {
         }
 
-        public void Init(MainClass main, RenderWindow window)
+        public void Init(GameLauncher launcher, RenderWindow window)
 		{
-			menuContainer.Init(main, window);
+			menuContainer.Init(launcher, window);
 
 			var font = Theme.SelectedTheme.GetFont();
 
@@ -44,7 +44,7 @@ namespace GamepadListener
 			var rectGamepadAttachedText = gamepadAttachedText.GetGlobalBounds();
 			gamepadAttachedText.Position = new Vector2f(timeText.Position.X - rectGamepadAttachedText.Width - 20, 10);*/
 
-			usernameText = new Text(main.session.UserName, font, 16);
+			usernameText = new Text(launcher.Session.UserName, font, 16);
 			usernameText.FillColor = Theme.SelectedTheme.TextColor;
 			usernameText.Position = new Vector2f(20, 10);
 
@@ -98,11 +98,11 @@ namespace GamepadListener
 				gamepadAttachedText.DisplayedString = connectedJoystickCount.ToString();
 			};*/
 
-			joystickConnected = Joystick.IsConnected(main.session.SessionGamepadId);
+			joystickConnected = Joystick.IsConnected(launcher.Session.SessionGamepadId);
 
 			window.JoystickConnected += (sender, e) =>
 			{
-				if(e.JoystickId == main.session.SessionGamepadId)
+				if(e.JoystickId == launcher.Session.SessionGamepadId)
 				{
 					joystickConnected = true;
 				}
@@ -110,7 +110,7 @@ namespace GamepadListener
 
 			window.JoystickDisconnected += (sender, e) =>
 			{
-				if(e.JoystickId == main.session.SessionGamepadId)
+				if(e.JoystickId == launcher.Session.SessionGamepadId)
 				{
 					joystickConnected = false;
 				}
@@ -146,7 +146,7 @@ namespace GamepadListener
 				// 0 = A button
 				if(e.Button == 0)
 				{
-					var current = main.library.GetWithName(menuContainer.GetSelectedItem().Name);
+					var current = launcher.Library.GetWithName(menuContainer.GetSelectedItem().Name);
 					if(!String.IsNullOrEmpty(current.Path))
 					{
 						Process proc = new Process();
@@ -173,7 +173,7 @@ namespace GamepadListener
 
 			sampleView.Add(sampleButton);
 
-			sampleView.Init(main, window);
+			sampleView.Init(launcher, window);
 		}
 
 		UI.UIView sampleView;

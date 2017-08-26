@@ -88,9 +88,9 @@ namespace GamepadListener.UI
 			return (T)_body;
 		}
 
-		public void Init(MainClass main, RenderWindow window)
+		public void Init(GameLauncher launcher, RenderWindow window)
 		{
-			_body.Init(main, window);
+			_body.Init(launcher, window);
 		}
 
 		public void Deinit()

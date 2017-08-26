@@ -64,10 +64,10 @@ namespace GamepadListener.UI
 			_elements.Clear();
 		}
 
-		public void Init(MainClass main, RenderWindow window)
+		public void Init(GameLauncher launcher, RenderWindow window)
 		{
 			foreach(var i in _elements)
-				i.Init(main, window);
+				i.Init(launcher, window);
 		}
 
 		public void Deinit()

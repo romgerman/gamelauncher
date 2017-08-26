@@ -5,14 +5,22 @@ using SFML.System;
 using GamepadListener;
 using System.IO;
 
-class MainClass
+class GameLauncher
 {
-	public IDrawable currentView;
-	public IDrawable pendingView;
-    public int sessionJoystickId;
-	public Library library;
-	public Session session;
+	private IDrawable pendingView;
+	private IDrawable currentView;
 
+	private bool shutdownRequested;
+
+	private RenderWindow window;
+	public Session Session { get; set; }
+	public Library Library { get; set; }
+
+	public GameLauncher()
+	{
+	}
+
+	// TODO: I hate this
 	void PopulateLibraryWithGameCollections()
 	{
 		SteamCollection steam = new SteamCollection();
@@ -24,9 +32,9 @@ class MainClass
 
 		foreach (var g in steam.Games)
 		{
-			if (!library.HasWithName(g.Name))
+			if (!Library.HasWithName(g.Name))
 			{
-				library.AddItem(new LibraryItemApplication()
+				Library.AddItem(new LibraryItemApplication()
 				{
 					Name = g.Name,
 				});
@@ -35,9 +43,9 @@ class MainClass
 
 		foreach (var g in origin.Games)
 		{
-			if (!library.HasWithName(g.Name))
+			if (!Library.HasWithName(g.Name))
 			{
-				library.AddItem(new LibraryItemApplication()
+				Library.AddItem(new LibraryItemApplication()
 				{
 					Name = g.Name,
 				});
@@ -46,9 +54,9 @@ class MainClass
 
 		foreach (var g in uplay.Games)
 		{
-			if (!library.HasWithName(g.Name))
+			if (!Library.HasWithName(g.Name))
 			{
-				library.AddItem(new LibraryItemApplication()
+				Library.AddItem(new LibraryItemApplication()
 				{
 					Name = g.Name,
 				});
@@ -56,57 +64,24 @@ class MainClass
 		}
 	}
 
-	static void Main(string[] args)
+	public void Initialize()
 	{
-		var window = new RenderWindow(new VideoMode(1360, 768, 32), "launcher");
+		window = new RenderWindow(new VideoMode(1360, 768, 32), "launcher");
 
-		Joystick.Update();
-
-		var id = Joystick.GetIdentification(0);
-		Console.WriteLine("0: {0}, 1: {1}, 2: {2}, 3: {3}", Joystick.IsConnected(0), Joystick.IsConnected(1), Joystick.IsConnected(2), Joystick.IsConnected(3));
-		Console.WriteLine("VendorID: {0} Product ID: {1}", id.VendorId, id.ProductId);
-		var controller_name = "Joystick Use: " + id.Name;
-
-		if(Joystick.IsConnected(0))
-		{
-			uint buttonCount = Joystick.GetButtonCount(0);
-
-			bool hasZ = Joystick.HasAxis(0, Joystick.Axis.Z);
-
-			Console.WriteLine("Button Count: {0}", buttonCount);
-			Console.WriteLine("Has a z-axis: {0}", hasZ);
-		}
-
-		var tickClock = new Clock();
-		var timeSinceLastUpdate = Time.Zero;
-		var timePerFrame = Time.FromSeconds(1.0f / 60.0f);
-		var duration = Time.Zero;
-
-		bool running = true;
-
-		window.KeyPressed += (sender, ev) =>
-		{
-			if(ev.Code == Keyboard.Key.Escape)
-			{
-				running = false;
-			}
-		};
-
-		var main = new MainClass();
-
-		main.session = new Session(0, "");
+		// TODO: Ew cleanup all this mess
+		Session = new Session(0, "");
 
 		const string libraryFileName = "library.xml";
-		main.library = new Library().LoadFromFile(libraryFileName);
-		main.PopulateLibraryWithGameCollections();
-		main.library.SaveToFile(libraryFileName);
+		Library = new Library().LoadFromFile(libraryFileName);
+		PopulateLibraryWithGameCollections();
+		Library.SaveToFile(libraryFileName);
 
 		Theme.LightTheme = new Theme()
 		{
 			TextColor = new Color(0x2f2f2fff),
 			BackgroundColor = new Color(0xf7f7f7ff),
 			CursorOutlineColor = new Color(0x10a6c0ff),
-            FontName = "OpenSans-Regular.ttf"
+			FontName = "OpenSans-Regular.ttf"
 		};
 
 		Theme.DarkTheme = new Theme()
@@ -114,27 +89,38 @@ class MainClass
 			TextColor = new Color(0xf7f7f7ff),
 			BackgroundColor = new Color(0x2f2f2fff),
 			CursorOutlineColor = new Color(0x10a6c0ff),
-            FontName = "OpenSans-Regular.ttf"
+			FontName = "OpenSans-Regular.ttf"
 		};
 
 		Theme.SelectedTheme = Theme.LightTheme;
+		// TODO: Ew cleanup all this END
+	}
 
-		main.currentView = new LoginView();
-		main.currentView.Init(main, window);
+	public void Run(IDrawable initialView)
+	{
+		Initialize();
 
-		while (running)
+		ChangeView(initialView);
+
+
+		window.KeyPressed += (sender, ev) =>
 		{
-			window.DispatchEvents();
-
-			Joystick.Update();
-
-			if(main.pendingView != null)
+			if(ev.Code == Keyboard.Key.Escape)
 			{
-                main.currentView.Deinit();
-				main.currentView = main.pendingView;
-				main.currentView.Init(main, window);
-				main.pendingView = null;
+				shutdownRequested = true;
 			}
+		};
+
+		var tickClock = new Clock();
+		var timeSinceLastUpdate = Time.Zero;
+		var timePerFrame = Time.FromSeconds(1.0f / 60.0f);
+
+		while (!shutdownRequested)
+		{
+			ProcessPendingView();
+
+			window.DispatchEvents();
+			Joystick.Update();
 
 			timeSinceLastUpdate += tickClock.Restart();
 
@@ -142,14 +128,66 @@ class MainClass
 			{
 				timeSinceLastUpdate -= timePerFrame;
 
-				main.currentView.Update(window, timePerFrame.AsMilliseconds());
+				currentView.Update(window, timePerFrame.AsMilliseconds());
 
 				window.Clear(Theme.SelectedTheme.BackgroundColor);
-				main.currentView.Render(window);
+				currentView.Render(window);
 				window.Display();
 			}
 		}
 
+		currentView.Deinit();
 		window.Close();
+	}
+
+	public void Quit()
+	{
+		shutdownRequested = true;
+	}
+
+	public void ChangeView(IDrawable newView)
+	{
+		if(currentView != null)
+		{
+			pendingView = newView;
+		}
+		else
+		{
+			SwitchView(newView);
+		}
+	}
+
+	private void ProcessPendingView()
+	{
+		if(pendingView != null)
+		{
+			SwitchView(pendingView);
+			pendingView = null;
+		}
+	}
+
+	private void SwitchView(IDrawable newView)
+	{
+		if(currentView != null)
+		{
+			currentView.Deinit();
+		}
+		currentView = newView;
+		newView.Init(this, window);
+	}
+
+	private bool HasPendingView()
+	{
+		return pendingView != null;
+	}
+}
+
+
+class MainClass
+{
+	static void Main(string[] args)
+	{
+		GameLauncher launcher = new GameLauncher();
+		launcher.Run(new LoginView());
 	}
 }

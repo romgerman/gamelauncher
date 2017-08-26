@@ -157,11 +157,11 @@ namespace GamepadListener
 			return elements.Count == 0;
 		}
 
-		public void Init(MainClass main, RenderWindow window)
+		public void Init(GameLauncher launcher, RenderWindow window)
 		{
 			rwindow = window;
 
-			foreach(var i in main.library.GetAllItems())
+			foreach(var i in launcher.Library.GetAllItems())
 			{
 				AddItem(i.Name, Color.Black);
 			}

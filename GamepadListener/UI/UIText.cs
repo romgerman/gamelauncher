@@ -65,7 +65,7 @@ namespace GamepadListener.UI
 
 		#region IDrawable interfaces
 
-		public void Init(MainClass main, RenderWindow window)
+		public void Init(GameLauncher launcher, RenderWindow window)
 		{
 			
 		}

@@ -5,7 +5,7 @@ namespace GamepadListener
 {
 	interface IDrawable
 	{
-		void Init(MainClass main, RenderWindow window);
+		void Init(GameLauncher launcher, RenderWindow window);
         void Deinit();
 		void Update(Window window, int dt);
 		void Render(RenderWindow window);
