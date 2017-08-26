@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using SFML.System;
 using SFML.Graphics;
 using SFML.Window;
+
+using GamepadListener.UI.Layouts;
 
 namespace GamepadListener.UI
 {
@@ -19,6 +22,8 @@ namespace GamepadListener.UI
 			get { return _offset; }
 			set { _offset = value; }
 		}
+
+		private Vector2f _offset;
 
 		public FloatRect Bounds
 		{
@@ -36,7 +41,21 @@ namespace GamepadListener.UI
 			}
 		}
 
-		private Vector2f _offset;
+		public UIAlignmentHorizontal HorizontalAlingment
+		{
+			get { return _horizAlignment; }
+			set { _horizAlignment = value; }
+		}
+
+		private UIAlignmentHorizontal _horizAlignment;
+
+		public UIAlignmentVertical VerticalAlingment
+		{
+			get { return _vertAlignment; }
+			set { _vertAlignment = value; }
+		}
+
+		private UIAlignmentVertical _vertAlignment;
 
 		public void Init(GameLauncher launcher, RenderWindow window)
 		{

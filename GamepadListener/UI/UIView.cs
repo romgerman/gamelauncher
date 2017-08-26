@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+
+using GamepadListener.UI.Layouts;
 
 namespace GamepadListener.UI
 {
@@ -42,6 +45,22 @@ namespace GamepadListener.UI
 		}
 
 		private IUIElement _parent;
+
+		public UIAlignmentHorizontal HorizontalAlingment
+		{
+			get { return _horizAlignment; }
+			set { _horizAlignment = value; }
+		}
+
+		private UIAlignmentHorizontal _horizAlignment;
+
+		public UIAlignmentVertical VerticalAlingment
+		{
+			get { return _vertAlignment; }
+			set { _vertAlignment = value; }
+		}
+
+		private UIAlignmentVertical _vertAlignment;
 
 		public UIView()
 		{

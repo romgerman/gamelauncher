@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Win32;
 
-namespace GamepadListener
+namespace GamepadListener.GameCollections
 {
-	class UplayCollection
+	class UplayCollection : IGameCollection
 	{
 		public List<LibraryItem> Games { get; private set; } = new List<LibraryItem>();
 
