@@ -8,7 +8,7 @@ namespace GamepadListener.GameCollections
 {
 	class OriginCollection : IGameCollection
 	{
-		public List<LibraryItem> Games { get; private set; } = new List<LibraryItem>();
+		public List<LibraryItem> Games { get; set; } = new List<LibraryItem>();
 
 		public void FetchGameList()
 		{

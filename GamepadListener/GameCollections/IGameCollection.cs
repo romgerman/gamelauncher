@@ -8,6 +8,8 @@ namespace GamepadListener.GameCollections
 {
 	interface IGameCollection
 	{
+		List<LibraryItem> Games { get; set; }
 
+		void FetchGameList();
 	}
 }

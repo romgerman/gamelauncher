@@ -6,6 +6,7 @@ using SFML.System;
 
 using GamepadListener;
 using GamepadListener.GameCollections;
+using System.Collections.Generic;
 
 class GameLauncher
 {
@@ -25,43 +26,27 @@ class GameLauncher
 	// TODO: I hate this
 	void PopulateLibraryWithGameCollections()
 	{
-		SteamCollection steam = new SteamCollection();
-		steam.FetchGameList();
-		OriginCollection origin = new OriginCollection();
-		origin.FetchGameList();
-		UplayCollection uplay = new UplayCollection();
-		uplay.FetchGameList();
-
-		foreach (var g in steam.Games)
+		List<IGameCollection> gameCollections = new List<IGameCollection>
 		{
-			if (!Library.HasWithName(g.Name))
-			{
-				Library.AddItem(new LibraryItemApplication()
-				{
-					Name = g.Name,
-				});
-			}
-		}
+			new SteamCollection(),
+			new OriginCollection(),
+			new UplayCollection()
+		};
 
-		foreach (var g in origin.Games)
+		foreach(var coll in gameCollections)
 		{
-			if (!Library.HasWithName(g.Name))
-			{
-				Library.AddItem(new LibraryItemApplication()
-				{
-					Name = g.Name,
-				});
-			}
-		}
+			coll.FetchGameList();
 
-		foreach (var g in uplay.Games)
-		{
-			if (!Library.HasWithName(g.Name))
+			foreach(var g in coll.Games)
 			{
-				Library.AddItem(new LibraryItemApplication()
+				if(!Library.HasWithName(g.Name))
 				{
-					Name = g.Name,
-				});
+					Library.AddItem(new LibraryItemApplication()
+					{
+						Name = g.Name,
+						Path = g.Path
+					});
+				}
 			}
 		}
 	}
