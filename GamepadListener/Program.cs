@@ -54,6 +54,10 @@ class GameLauncher
 	public void Initialize()
 	{
 		window = new RenderWindow(new VideoMode(1360, 768, 32), "launcher");
+		window.Closed += (sender, ev) =>
+		{
+			shutdownRequested = true;
+		};
 
 		// TODO: Ew cleanup all this mess
 		Session = new Session(0, "");
@@ -88,15 +92,6 @@ class GameLauncher
 		Initialize();
 
 		ChangeView(initialView);
-
-
-		window.KeyPressed += (sender, ev) =>
-		{
-			if(ev.Code == Keyboard.Key.Escape)
-			{
-				shutdownRequested = true;
-			}
-		};
 
 		var tickClock = new Clock();
 		var timeSinceLastUpdate = Time.Zero;
