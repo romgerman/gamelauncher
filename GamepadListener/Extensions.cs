@@ -1,5 +1,6 @@
 ﻿using System;
 using SFML.System;
+using System.Text;
 
 namespace GamepadListener
 {
