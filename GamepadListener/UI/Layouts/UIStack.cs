@@ -1,21 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
 namespace GamepadListener.UI.Layouts
 {
-	// TODO: can be horizontal and vertical
+	enum UIStackOrientation
+	{
+		Vertical, Horizontal
+	}
 
 	/// <summary>
 	/// Stackable container layout for UI objects
 	/// </summary>
-	class UIStack : IUIElement
+	class UIStack : IUIElement, IEnumerable<IUIElement>
 	{
+		private List<IUIElement> _elements;
+		private UIStackOrientation _orientation;
+
 		public Vector2f Offset
 		{
 			get { return _offset; }
@@ -28,11 +36,45 @@ namespace GamepadListener.UI.Layouts
 
 		public IUIElement Parent
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return _parent; }
+			protected set { _parent = value; }
 		}
+
+		private IUIElement _parent;
+
+		public UIAlignmentHorizontal HorizontalAlingment
+		{
+			get { return _horizAlignment; }
+			set { _horizAlignment = value; }
+		}
+
+		private UIAlignmentHorizontal _horizAlignment;
+
+		public UIAlignmentVertical VerticalAlingment
+		{
+			get { return _vertAlignment; }
+			set { _vertAlignment = value; }
+		}
+
+		private UIAlignmentVertical _vertAlignment;
+
+		public UIStack(UIStackOrientation orientation = UIStackOrientation.Vertical)
+		{
+			this._elements = new List<IUIElement>();
+			this._orientation = orientation;
+		}
+
+		public void Add(IUIElement item)
+		{
+			_elements.Add(item);
+		}
+
+		public void Remove(IUIElement item)
+		{
+			_elements.Remove(item);
+		}
+
+		#region IDrawable interface
 
 		public void Init(GameLauncher launcher, RenderWindow window)
 		{
@@ -53,5 +95,21 @@ namespace GamepadListener.UI.Layouts
 		{
 			throw new NotImplementedException();
 		}
+
+		#endregion
+
+		#region IEnumerable interface
+
+		public IEnumerator<IUIElement> GetEnumerator()
+		{
+			return _elements.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return _elements.GetEnumerator();
+		}
+
+		#endregion
 	}
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+
 using GamepadListener;
-using System.IO;
+using GamepadListener.GameCollections;
 
 class GameLauncher
 {
