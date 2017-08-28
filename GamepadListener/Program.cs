@@ -18,9 +18,13 @@ class GameLauncher
 	private RenderWindow window;
 	public Session Session { get; set; }
 	public Library Library { get; set; }
+	public ThemeManager ThemeManager { get; set; }
+
+	public static GameLauncher Instance { get; set; }
 
 	public GameLauncher()
 	{
+		Instance = this;
 	}
 
 	// TODO: I hate this
@@ -59,32 +63,28 @@ class GameLauncher
 			shutdownRequested = true;
 		};
 
-		// TODO: Ew cleanup all this mess
 		Session = new Session(0, "");
 
-		const string libraryFileName = "library.xml";
-		Library = new Library().LoadFromFile(libraryFileName);
+		Library = new Library().LoadFromFile(Paths.LibraryPath);
 		PopulateLibraryWithGameCollections();
-		Library.SaveToFile(libraryFileName);
+		Library.SaveToFile(Paths.LibraryPath);
 
-		Theme.LightTheme = new Theme()
-		{
-			TextColor = new Color(0x2f2f2fff),
-			BackgroundColor = new Color(0xf7f7f7ff),
-			CursorOutlineColor = new Color(0x10a6c0ff),
-			FontName = "OpenSans-Regular.ttf"
-		};
-
-		Theme.DarkTheme = new Theme()
+		ThemeManager = new ThemeManager();
+		ThemeManager.AddTheme("DarkTheme", new Theme()
 		{
 			TextColor = new Color(0xf7f7f7ff),
 			BackgroundColor = new Color(0x2f2f2fff),
 			CursorOutlineColor = new Color(0x10a6c0ff),
 			FontName = "OpenSans-Regular.ttf"
-		};
-
-		Theme.SelectedTheme = Theme.LightTheme;
-		// TODO: Ew cleanup all this END
+		});
+		ThemeManager.AddTheme("LightTheme", new Theme()
+		{
+			TextColor = new Color(0x2f2f2fff),
+			BackgroundColor = new Color(0xf7f7f7ff),
+			CursorOutlineColor = new Color(0x10a6c0ff),
+			FontName = "OpenSans-Regular.ttf"
+		});
+		ThemeManager.SetTheme("LightTheme");
 	}
 
 	public void Run(IDrawable initialView)
@@ -112,7 +112,7 @@ class GameLauncher
 
 				currentView.Update(window, timePerFrame.AsMilliseconds());
 
-				window.Clear(Theme.SelectedTheme.BackgroundColor);
+				window.Clear(ThemeManager.SelectedTheme.BackgroundColor);
 				currentView.Render(window);
 				window.Display();
 			}
@@ -141,7 +141,7 @@ class GameLauncher
 
 	private void ProcessPendingView()
 	{
-		if(pendingView != null)
+		if(HasPendingView())
 		{
 			SwitchView(pendingView);
 			pendingView = null;

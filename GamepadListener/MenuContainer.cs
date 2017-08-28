@@ -77,7 +77,7 @@ namespace GamepadListener
 					FillColor = color,
 					OutlineThickness = 10.0f
 				},
-				Title = new Text(name, Theme.SelectedTheme.GetFont(), 16),
+				Title = new Text(name, GameLauncher.Instance.ThemeManager.SelectedTheme.GetFont(), 16),
 				Animation = new TweenVector2f() 
 			};
 

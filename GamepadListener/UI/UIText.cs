@@ -73,12 +73,12 @@ namespace GamepadListener.UI
 
 		public UIText()
 		{
-			_text = new Text("", Theme.SelectedTheme.GetFont());
+			_text = new Text("", GameLauncher.Instance.ThemeManager.SelectedTheme.GetFont());
 		}
 
 		public UIText(string text)
 		{
-			_text = new Text(text, Theme.SelectedTheme.GetFont());
+			_text = new Text(text, GameLauncher.Instance.ThemeManager.SelectedTheme.GetFont());
 		}
 
 		#region IDrawable interfaces

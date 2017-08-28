@@ -31,10 +31,10 @@ namespace GamepadListener
 		{
 			menuContainer.Init(launcher, window);
 
-			var font = Theme.SelectedTheme.GetFont();
+			var font = launcher.ThemeManager.SelectedTheme.GetFont();
 
 			timeText = new Text(DateTime.Now.ToString("t"), font, 16);
-			timeText.FillColor = Theme.SelectedTheme.TextColor;
+			timeText.FillColor = launcher.ThemeManager.SelectedTheme.TextColor;
 			var rectTimeText = timeText.GetLocalBounds();
 			timeText.Position = new Vector2f(window.Size.X - rectTimeText.Width - 20, 10);
 
@@ -45,11 +45,11 @@ namespace GamepadListener
 			gamepadAttachedText.Position = new Vector2f(timeText.Position.X - rectGamepadAttachedText.Width - 20, 10);*/
 
 			usernameText = new Text(launcher.Session.UserName, font, 16);
-			usernameText.FillColor = Theme.SelectedTheme.TextColor;
+			usernameText.FillColor = launcher.ThemeManager.SelectedTheme.TextColor;
 			usernameText.Position = new Vector2f(20, 10);
 
 			topBarBorder = new RectangleShape(new Vector2f(window.Size.X - 20, 1.5f));
-			topBarBorder.FillColor = Theme.SelectedTheme.TextColor;
+			topBarBorder.FillColor = launcher.ThemeManager.SelectedTheme.TextColor;
 			topBarBorder.Position = new Vector2f(10, 40);
 
 			noJoystickNotice = new Text("Connect a Joystick to continue.", font, 16);
@@ -57,14 +57,14 @@ namespace GamepadListener
 			noJoystickNotice.Origin = new Vector2f(noJoystickNoticeRect.Left + noJoystickNoticeRect.Width / 2.0f,
 									   noJoystickNoticeRect.Top + noJoystickNoticeRect.Height / 2.0f);
 			noJoystickNotice.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
-			noJoystickNotice.FillColor = Theme.SelectedTheme.TextColor;
+			noJoystickNotice.FillColor = launcher.ThemeManager.SelectedTheme.TextColor;
 
 			libraryEmptyNotice = new Text("To play a game you can add a game to the library.", font, 16);
-			libraryEmptyNotice.FillColor = Theme.SelectedTheme.TextColor;
+			libraryEmptyNotice.FillColor = launcher.ThemeManager.SelectedTheme.TextColor;
 			libraryEmptyNotice.Position = new Vector2f(50, 70);
 
 			currentElementTitleText = new Text("CURRENT_ELEMENT_TITLE", font, 24);
-			currentElementTitleText.FillColor = Theme.SelectedTheme.TextColor;
+			currentElementTitleText.FillColor = launcher.ThemeManager.SelectedTheme.TextColor;
 			currentElementTitleText.Position = new Vector2f(50, 70);
 
 			currentElementTitleText.DisplayedString = menuContainer.GetSelectedItem().Name;
