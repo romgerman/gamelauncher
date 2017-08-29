@@ -77,7 +77,7 @@
     <Compile Include="GameCollections\IGameCollection.cs" />
     <Compile Include="GameCollections\OriginCollection.cs" />
     <Compile Include="GameCollections\UplayCollection.cs" />
-    <Compile Include="Gamepad.cs" />
+    <Compile Include="GamepadInput.cs" />
     <Compile Include="GuideButton.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="LoginView.cs" />
