@@ -62,6 +62,14 @@ class GameLauncher
 		{
 			shutdownRequested = true;
 		};
+		window.KeyPressed += (sender, ev) =>
+		{
+			var win = (Window)sender;
+			if(win.HasFocus())
+			{
+				shutdownRequested = true;
+			}
+		};
 
 		Session = new Session(0, "");
 
