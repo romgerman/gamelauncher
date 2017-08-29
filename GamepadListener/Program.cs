@@ -163,7 +163,7 @@ class GameLauncher
 			currentView.Deinit();
 		}
 		currentView = newView;
-		newView.Init(this, window);
+		currentView.Init(this, window);
 	}
 
 	private bool HasPendingView()
