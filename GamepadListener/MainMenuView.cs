@@ -9,19 +9,16 @@ namespace GamepadListener
 {
 	class MainMenuView : IDrawable
 	{
-		Text timeText;
-		Text usernameText;
 		// Text gamepadAttachedText;
 		Text noJoystickNotice;
 		Text libraryEmptyNotice;
 		Text currentElementTitleText;
 
-		RectangleShape topBarBorder;
-
 		bool joystickConnected;
 		// int connectedJoystickCount;
 
 		MenuContainer menuContainer = new MenuContainer();
+		StatusBar statusBar = new StatusBar();
 
         public void Deinit()
         {
@@ -30,27 +27,11 @@ namespace GamepadListener
         public void Init(GameLauncher launcher, RenderWindow window)
 		{
 			menuContainer.Init(launcher, window);
+			statusBar.Init(launcher, window);
 
 			var font = launcher.ThemeManager.SelectedTheme.GetFont();
 
-			timeText = new Text(DateTime.Now.ToString("t"), font, 16);
-			timeText.FillColor = launcher.ThemeManager.SelectedTheme.TextColor;
-			var rectTimeText = timeText.GetLocalBounds();
-			timeText.Position = new Vector2f(window.Size.X - rectTimeText.Width - 20, 10);
-
-			// TODO: Maybe make this text display which gamepad is currently used
-			/*gamepadAttachedText = new Text("0", font, 16);
-			gamepadAttachedText.FillColor = Theme.SelectedTheme.TextColor;
-			var rectGamepadAttachedText = gamepadAttachedText.GetGlobalBounds();
-			gamepadAttachedText.Position = new Vector2f(timeText.Position.X - rectGamepadAttachedText.Width - 20, 10);*/
-
-			usernameText = new Text(launcher.Session.UserName, font, 16);
-			usernameText.FillColor = launcher.ThemeManager.SelectedTheme.TextColor;
-			usernameText.Position = new Vector2f(20, 10);
-
-			topBarBorder = new RectangleShape(new Vector2f(window.Size.X - 20, 1.5f));
-			topBarBorder.FillColor = launcher.ThemeManager.SelectedTheme.TextColor;
-			topBarBorder.Position = new Vector2f(10, 40);
+			statusBar.SetUsername(launcher.Session.UserName);
 
 			noJoystickNotice = new Text("Connect a Joystick to continue.", font, 16);
 			var noJoystickNoticeRect = noJoystickNotice.GetLocalBounds();
@@ -161,31 +142,11 @@ namespace GamepadListener
 					}
 				}
 			};
-
-			// Testing UI
-
-			sampleView = new UI.UIView();
-			sampleView.Bounds = new FloatRect(0, 0, window.Size.X, window.Size.Y);
-
-			sampleText = new UI.UIText("Hello world");
-			sampleButton = new UI.UIButton();
-			sampleButton.Body = sampleText;
-
-			sampleView.Add(sampleButton);
-
-			sampleView.Init(launcher, window);
 		}
-
-		UI.UIView sampleView;
-		UI.UIText sampleText;
-		UI.UIButton sampleButton;
 
 		public void Render(RenderWindow window)
 		{
-			timeText.Draw(window, RenderStates.Default);
-			usernameText.Draw(window, RenderStates.Default);
 			// gamepadAttachedText.Draw(window, RenderStates.Default);
-			topBarBorder.Draw(window, RenderStates.Default);
 
 			if (menuContainer.Empty())
 			{
@@ -195,18 +156,17 @@ namespace GamepadListener
 			currentElementTitleText.Draw(window, RenderStates.Default);
 
 			menuContainer.Render(window);
+			statusBar.Render(window);
 
 			if (!joystickConnected) noJoystickNotice.Draw(window, RenderStates.Default);
 
-
-			sampleView.Render(window);
+			
 		}
 
 		public void Update(Window window, int dt)
 		{
-			timeText.DisplayedString = DateTime.Now.ToString("t");
-
 			menuContainer.Update(window, dt);
+			statusBar.Update(window, dt);
 		}
 	}
 }

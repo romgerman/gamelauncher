@@ -41,7 +41,7 @@ namespace GamepadListener.UI
 		public IUIElement Parent
 		{
 			get { return _parent; }
-			protected set { _parent = value; }
+			set { _parent = value; }
 		}
 
 		private IUIElement _parent;
@@ -67,9 +67,15 @@ namespace GamepadListener.UI
 			_elements = new HashSet<IUIElement>();
 		}
 
+		public UIView(float width, float height) : this()
+		{
+			Bounds = new FloatRect(0, 0, width, height);
+		}
+
 		public void Add(IUIElement item)
 		{
 			item.Offset = new Vector2f(Bounds.Left, Bounds.Top);
+			item.Parent = this;
 			_elements.Add(item);
 		}
 

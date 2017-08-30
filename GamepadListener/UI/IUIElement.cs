@@ -7,9 +7,6 @@ using GamepadListener.UI.Layouts;
 
 namespace GamepadListener.UI
 {
-	// TODO: Frankly idk about this interface. Maybe we should make it as an abstract class
-	// Because i hate making all properties and fileds for them :/
-
 	// TODO: Also we need to make UI input system somehow
 	// So all interactable elements like buttons and input boxes should be registered in it
 
@@ -18,9 +15,9 @@ namespace GamepadListener.UI
 	/// </summary>
 	interface IUIElement : IDrawable
 	{
-		Vector2f Offset { get; set; }
+		Vector2f Offset { get; set; } // TODO: i thought this could be used as padding/margin but it used to position elements. So either we make this to work with both or just add padding/margin properties
 		FloatRect Bounds { get; }
-		IUIElement Parent { get; }
+		IUIElement Parent { get; set; }
 		UIAlignmentHorizontal HorizontalAlingment { get; set; }
 		UIAlignmentVertical VerticalAlingment { get; set; }
 	}

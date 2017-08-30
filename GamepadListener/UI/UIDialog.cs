@@ -39,6 +39,11 @@ namespace GamepadListener.UI
 			{
 				throw new NotImplementedException();
 			}
+
+			set
+			{
+				throw new Exception();
+			}
 		}
 
 		public UIAlignmentHorizontal HorizontalAlingment

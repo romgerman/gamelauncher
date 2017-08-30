@@ -37,7 +37,7 @@ namespace GamepadListener.UI.Layouts
 		public IUIElement Parent
 		{
 			get { return _parent; }
-			protected set { _parent = value; }
+			set { _parent = value; }
 		}
 
 		private IUIElement _parent;

@@ -50,7 +50,7 @@ namespace GamepadListener.UI
 		public IUIElement Parent
 		{
 			get { return _parent; }
-			private set { _parent = value; }
+			set { _parent = value; }
 		}
 
 		private IUIElement _parent;
@@ -58,7 +58,39 @@ namespace GamepadListener.UI
 		public UIAlignmentHorizontal HorizontalAlingment
 		{
 			get { return _horizAlignment; }
-			set { _horizAlignment = value; }
+			set
+			{
+				_horizAlignment = value;
+
+				switch (_horizAlignment)
+				{
+					case UIAlignmentHorizontal.Left:
+						{
+							var ppos = _parent == null ? 0.0f : _parent.Offset.X;
+
+							this.Offset = new Vector2f(ppos, this.Offset.Y);
+						}
+						break;
+					case UIAlignmentHorizontal.Center:
+						{
+							var ppos = _parent == null ? 0.0f : _parent.Offset.X;
+							var bpos = _parent == null ? 0.0f : _parent.Bounds.Width;
+							ppos += this.Bounds.Width / 2 + bpos / 2;
+
+							this.Offset = new Vector2f(ppos, this.Offset.Y);
+						}
+						break;
+					case UIAlignmentHorizontal.Right:
+						{
+							var ppos = _parent == null ? 0.0f : _parent.Offset.X;
+							var bpos = _parent == null ? 0.0f : _parent.Bounds.Width;
+							ppos += bpos - this.Bounds.Width;
+
+							this.Offset = new Vector2f(ppos, this.Offset.Y);
+						}
+						break;
+				}
+			}
 		}
 
 		private UIAlignmentHorizontal _horizAlignment;
@@ -66,7 +98,39 @@ namespace GamepadListener.UI
 		public UIAlignmentVertical VerticalAlingment
 		{
 			get { return _vertAlignment; }
-			set { _vertAlignment = value; }
+			set
+			{
+				_vertAlignment = value;
+
+				switch (_vertAlignment)
+				{
+					case UIAlignmentVertical.Top:
+						{
+							var ppos = _parent == null ? 0.0f : _parent.Offset.Y;
+
+							this.Offset = new Vector2f(this.Offset.X, ppos);
+						}
+						break;
+					case UIAlignmentVertical.Middle:
+						{
+							var ppos = _parent == null ? 0.0f : _parent.Offset.Y;
+							var bpos = _parent == null ? 0.0f : _parent.Bounds.Height;
+							ppos += bpos / 2 - this.Bounds.Height / 2;
+
+							this.Offset = new Vector2f(this.Offset.X, ppos);
+						}
+						break;
+					case UIAlignmentVertical.Bottom:
+						{
+							var ppos = _parent == null ? 0.0f : _parent.Offset.Y;
+							var bpos = _parent == null ? 0.0f : _parent.Bounds.Height;
+							ppos += bpos - this.Bounds.Height;
+
+							this.Offset = new Vector2f(ppos, this.Offset.Y);
+						}
+						break;
+				}
+			}
 		}
 
 		private UIAlignmentVertical _vertAlignment;

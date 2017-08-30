@@ -16,7 +16,9 @@ namespace GamepadListener
 
 		public void SetTheme(string name)
 		{
-			if (themeStore.TryGetValue(name, out Theme theme))
+			Theme theme;
+
+			if (themeStore.TryGetValue(name, out theme))
 			{
 				SelectedTheme = theme;
 				Console.WriteLine($"Theme set to {name}");
