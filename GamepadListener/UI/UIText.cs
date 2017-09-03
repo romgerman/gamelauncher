@@ -75,7 +75,7 @@ namespace GamepadListener.UI
 						{
 							var ppos = _parent == null ? 0.0f : _parent.Offset.X;
 							var bpos = _parent == null ? 0.0f : _parent.Bounds.Width;
-							ppos += this.Bounds.Width / 2 + bpos / 2;
+							ppos += bpos / 2 - this.Bounds.Width / 2;
 
 							this.Offset = new Vector2f(ppos, this.Offset.Y);
 						}

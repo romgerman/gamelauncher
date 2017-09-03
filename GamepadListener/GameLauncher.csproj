@@ -95,6 +95,7 @@
     <Compile Include="UI\Layouts\UIAlignment.cs" />
     <Compile Include="UI\Layouts\UIStack.cs" />
     <Compile Include="UI\UIButton.cs" />
+    <Compile Include="UI\UIController.cs" />
     <Compile Include="UI\UIDialog.cs" />
     <Compile Include="UI\UIText.cs" />
     <Compile Include="UI\UIView.cs" />
